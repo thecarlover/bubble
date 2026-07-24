@@ -7,6 +7,12 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// Trust reverse proxy (needed for secure cookies on Render/Heroku)
+const isProduction = process.env.NODE_ENV === 'production' || !!process.env.RENDER;
+if (isProduction) {
+  app.set('trust proxy', 1);
+}
+
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -17,9 +23,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to true if using HTTPS, false is fine for HTTP
+    secure: isProduction, // Set to true if using HTTPS on production
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    sameSite: 'lax'
   }
 }));
 
@@ -46,7 +53,9 @@ function initializeTables() {
         isAdmin INTEGER DEFAULT 0,
         createdAt TEXT NOT NULL
       )
-    `);
+    `, (err) => {
+      if (err) console.error("❌ Error creating users table:", err.message);
+    });
 
     // Create Stats table
     db.run(`
@@ -68,12 +77,16 @@ function initializeTables() {
         updatedAt TEXT NOT NULL,
         FOREIGN KEY(uid) REFERENCES users(uid) ON DELETE CASCADE
       )
-    `, () => {
+    `, (err) => {
+      if (err) {
+        console.error("❌ Error creating stats table:", err.message);
+        return;
+      }
       // Seed default admin user if not present
       const adminEmail = 'admin@bubblewrap.com';
       db.get("SELECT * FROM users WHERE email = ?", [adminEmail], (err, row) => {
         if (err) {
-          console.error("Admin check query error:", err.message);
+          console.error("❌ Admin check query error:", err.message);
           return;
         }
         if (!row) {
@@ -88,7 +101,7 @@ function initializeTables() {
             [uid, adminEmail, passwordHash, 'System Admin', 1, now],
             (err) => {
               if (err) {
-                console.error("Failed to seed admin user:", err.message);
+                console.error("❌ Failed to seed admin user:", err.message);
               } else {
                 console.log(`=============================================`);
                 console.log(`🔑 Seeded admin user: ${adminEmail}`);
@@ -100,7 +113,7 @@ function initializeTables() {
                   "INSERT INTO stats (uid, totalPopped, poppedToday, longestStreak, currentStreak, sheetsRefilled, lastActiveDate, unlockedSkins, selectedSkin, dailyStreak, lastDailyCompletedDate, streakFreezes, lastFreezeResetDate, dailySheetsCompleted, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                   [uid, 1250, 250, 42, 0, 5, now.split('T')[0], JSON.stringify(['classic', 'holographic', 'glow']), 'classic', 3, now.split('T')[0], 1, now.split('T')[0], 1, now],
                   (err) => {
-                    if (err) console.error("Admin stats seed error:", err.message);
+                    if (err) console.error("❌ Admin stats seed error:", err.message);
                   }
                 );
               }

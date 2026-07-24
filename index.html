@@ -1,0 +1,5306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubble Wrap - Calming Stress Relief Toy</title>
+  <meta name="description" content="An interactive, tactile virtual bubble wrap stress-relief toy. Pop bubbles with realistic 3D aesthetics, satisfying sound effects, and smooth feedback.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables for Themes */
+    :root {
+      /* Classic Glass Theme (Default) */
+      --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      --header-bg: rgba(255, 255, 255, 0.35);
+      --header-text: #1e293b;
+      --header-border: rgba(255, 255, 255, 0.4);
+      --weld-color: rgba(255, 255, 255, 0.45);
+      --weld-bg: rgba(255, 255, 255, 0.04);
+      --bubble-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.25) 20%, rgba(52, 152, 219, 0.05) 60%, rgba(41, 128, 185, 0.2) 100%);
+      --bubble-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), inset -2px -2px 5px rgba(0, 0, 0, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+      --bubble-hover-shadow: 0 8px 16px rgba(41, 128, 185, 0.12), inset -2px -2px 5px rgba(0, 0, 0, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+      --bubble-popped-bg: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.06) 100%);
+      --bubble-popped-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1), inset -1px -1px 3px rgba(255, 255, 255, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+      --rupture-color: rgba(0, 0, 0, 0.12);
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-glow: rgba(59, 130, 246, 0.3);
+      --text-color: #1e293b;
+      --text-muted: #64748b;
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --dialog-border: rgba(255, 255, 255, 0.5);
+      
+      /* Spring Easing (from CSS physics-based-easing guide) */
+      --spring-easing: linear(0, 0.016 0.5%, 0.06 1%, 0.226 2%, 1.116 5.4%, 1.375 6.6%, 1.527 7.7%, 1.565 8.2%, 1.585 8.8%, 1.581 9.3%, 1.559 9.8%, 1.458 10.9%, 0.937 14.3%, 0.784 15.5%, 0.693 16.6%, 0.67 17.1%, 0.657 17.7%, 0.671 18.7%, 0.729 19.8%, 1.042 23.3%, 1.13 24.5%, 1.182 25.6%, 1.201 26.7%, 1.192 27.7%, 1.156 28.8%, 0.977 32.2%, 0.925 33.4%, 0.894 34.5%, 0.882 35.6%, 0.887 36.6%, 0.907 37.7%, 1.045 42.4%, 1.069 44.5%, 1.059 46.3%, 0.979 50.9%, 0.96 53.4%, 0.966 55.3%, 1.013 59.9%, 1.024 62.3%, 0.986 71.2%, 1.008 79.9%, 0.995 88.9%, 1);
+    }
+
+    [data-theme="mint"] {
+      --bg-gradient: linear-gradient(135deg, #eefcf4 0%, #d2f1e4 100%);
+      --header-bg: rgba(255, 255, 255, 0.35);
+      --header-text: #1b4332;
+      --header-border: rgba(255, 255, 255, 0.5);
+      --weld-color: rgba(46, 204, 113, 0.25);
+      --weld-bg: rgba(46, 204, 113, 0.02);
+      --bubble-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 20%, rgba(46, 204, 113, 0.05) 60%, rgba(39, 174, 96, 0.2) 100%);
+      --bubble-shadow: 0 4px 6px rgba(39, 174, 96, 0.06), inset -2px -2px 5px rgba(39, 174, 96, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+      --bubble-hover-shadow: 0 8px 16px rgba(39, 174, 96, 0.12), inset -2px -2px 5px rgba(39, 174, 96, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+      --bubble-popped-bg: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.05) 100%);
+      --bubble-popped-shadow: inset 1px 1px 3px rgba(39, 174, 96, 0.1), inset -1px -1px 3px rgba(255, 255, 255, 0.4);
+      --rupture-color: rgba(39, 174, 96, 0.2);
+      --accent-color: #10b981;
+      --accent-hover: #059669;
+      --accent-glow: rgba(16, 185, 129, 0.3);
+      --text-color: #1b4332;
+      --text-muted: #40916c;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --dialog-border: rgba(255, 255, 255, 0.5);
+    }
+
+    [data-theme="neon"] {
+      --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 50%, #1e1b4b 100%);
+      --header-bg: rgba(17, 24, 39, 0.6);
+      --header-text: #f3f4f6;
+      --header-border: rgba(236, 72, 153, 0.15);
+      --weld-color: rgba(236, 72, 153, 0.2);
+      --weld-bg: rgba(236, 72, 153, 0.01);
+      --bubble-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.45) 0%, rgba(236, 72, 153, 0.12) 30%, rgba(139, 92, 246, 0.2) 70%, rgba(99, 102, 241, 0.45) 100%);
+      --bubble-shadow: 0 4px 10px rgba(236, 72, 153, 0.1), 0 0 5px rgba(99, 102, 241, 0.08), inset -2px -2px 5px rgba(0, 0, 0, 0.3), inset 2px 2px 5px rgba(255, 255, 255, 0.35);
+      --bubble-hover-shadow: 0 8px 20px rgba(236, 72, 153, 0.2), 0 0 12px rgba(99, 102, 241, 0.2), inset -2px -2px 5px rgba(0, 0, 0, 0.3), inset 2px 2px 5px rgba(255, 255, 255, 0.5);
+      --bubble-popped-bg: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.7) 100%);
+      --bubble-popped-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.75), 0 1px 1px rgba(255, 255, 255, 0.03);
+      --rupture-color: rgba(236, 72, 153, 0.35);
+      --accent-color: #ec4899;
+      --accent-hover: #db2777;
+      --accent-glow: rgba(236, 72, 153, 0.4);
+      --text-color: #f3f4f6;
+      --text-muted: #9ca3af;
+      --card-bg: rgba(17, 24, 39, 0.75);
+      --dialog-border: rgba(236, 72, 153, 0.25);
+    }
+
+    [data-theme="sunset"] {
+      --bg-gradient: linear-gradient(135deg, #fef4e8 0%, #fee2e2 50%, #fed7aa 100%);
+      --header-bg: rgba(255, 255, 255, 0.4);
+      --header-text: #431407;
+      --header-border: rgba(255, 255, 255, 0.5);
+      --weld-color: rgba(234, 88, 12, 0.22);
+      --weld-bg: rgba(234, 88, 12, 0.02);
+      --bubble-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 20%, rgba(251, 146, 60, 0.08) 60%, rgba(234, 88, 12, 0.25) 100%);
+      --bubble-shadow: 0 4px 6px rgba(234, 88, 12, 0.06), inset -2px -2px 5px rgba(234, 88, 12, 0.06), inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+      --bubble-hover-shadow: 0 8px 16px rgba(234, 88, 12, 0.14), inset -2px -2px 5px rgba(234, 88, 12, 0.06), inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+      --bubble-popped-bg: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.06) 100%);
+      --bubble-popped-shadow: inset 1px 1px 3px rgba(234, 88, 12, 0.1), inset -1px -1px 3px rgba(255, 255, 255, 0.4);
+      --rupture-color: rgba(234, 88, 12, 0.2);
+      --accent-color: #ea580c;
+      --accent-hover: #c2410c;
+      --accent-glow: rgba(234, 88, 12, 0.3);
+      --text-color: #431407;
+      --text-muted: #7c2d12;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --dialog-border: rgba(255, 255, 255, 0.5);
+    }
+
+    [data-theme="cherry"] {
+      --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 50%, #fbcfe8 100%);
+      --header-bg: rgba(255, 255, 255, 0.4);
+      --header-text: #500724;
+      --header-border: rgba(255, 255, 255, 0.5);
+      --weld-color: rgba(219, 39, 119, 0.18);
+      --weld-bg: rgba(219, 39, 119, 0.01);
+      --bubble-bg: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 20%, rgba(244, 114, 182, 0.06) 60%, rgba(219, 39, 119, 0.22) 100%);
+      --bubble-shadow: 0 4px 6px rgba(219, 39, 119, 0.06), inset -2px -2px 5px rgba(219, 39, 119, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+      --bubble-hover-shadow: 0 8px 16px rgba(219, 39, 119, 0.12), inset -2px -2px 5px rgba(219, 39, 119, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+      --bubble-popped-bg: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.05) 100%);
+      --bubble-popped-shadow: inset 1px 1px 3px rgba(219, 39, 119, 0.12), inset -1px -1px 3px rgba(255, 255, 255, 0.4);
+      --rupture-color: rgba(219, 39, 119, 0.18);
+      --accent-color: #db2777;
+      --accent-hover: #be185d;
+      --accent-glow: rgba(219, 39, 119, 0.3);
+      --text-color: #500724;
+      --text-muted: #831843;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --dialog-border: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Core Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body, html {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      transition: background 0.8s ease;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none; /* Disable browser pinch, zoom, swipe */
+    }
+
+    /* Glassmorphic Header styling */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 76px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--header-bg);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--header-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      z-index: 100;
+      transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-left h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-grow: 1;
+      max-width: 260px;
+      margin: 0 16px;
+    }
+
+    .counter-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .counter-label span {
+      font-weight: 700;
+      color: var(--text-color);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 99px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    [data-theme="neon"] .progress-bar {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0;
+      background: var(--accent-color);
+      border-radius: 99px;
+      transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Mini Stats Panel */
+    .stats-mini {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      padding-right: 16px;
+    }
+
+    [data-theme="neon"] .stats-mini {
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 48px;
+    }
+
+    .stat-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .stat-lbl {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Dropdowns and Buttons */
+    select {
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--text-color);
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    [data-theme="neon"] select {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    select:hover {
+      border-color: var(--accent-color);
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent-color);
+      color: white;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px var(--accent-glow);
+    }
+
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Main Grid Wrapper */
+    .grid-container {
+      position: absolute;
+      top: 76px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    /* Grid configuration */
+    .bubble-grid {
+      display: grid;
+      grid-template-columns: repeat(var(--cols), 1fr);
+      grid-template-rows: repeat(var(--rows), 1fr);
+      gap: 12px;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      max-width: 1600px;
+      max-height: 900px;
+      padding: 12px;
+      box-sizing: border-box;
+      transition: grid-template-columns 0.3s ease, grid-template-rows 0.3s ease;
+    }
+
+    /* Bubble Structures */
+    .bubble {
+      position: relative;
+      width: var(--bubble-size, 68px);
+      height: var(--bubble-size, 68px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      perspective: 1000px;
+    }
+
+    /* Flat backing heat weld ring */
+    .bubble-weld {
+      position: absolute;
+      width: var(--weld-size, 62px);
+      height: var(--weld-size, 62px);
+      border-radius: 50%;
+      border: 1.5px solid var(--weld-color);
+      background: var(--weld-bg);
+      box-sizing: border-box;
+      pointer-events: none;
+      z-index: 1;
+      transition: border-color 0.5s ease, background 0.5s ease;
+    }
+
+    /* Glossy 3D bubble dome */
+    .bubble-cap {
+      position: absolute;
+      width: var(--cap-size, 56px);
+      height: var(--cap-size, 56px);
+      border-radius: 50%;
+      background: var(--bubble-bg);
+      box-shadow: var(--bubble-shadow);
+      z-index: 2;
+      pointer-events: none;
+      transform: translateZ(0);
+      /* Apply spring-based easing from variables */
+      transition: transform 0.25s var(--spring-easing), box-shadow 0.2s ease, opacity 0.25s ease;
+    }
+
+    /* Highlight flare on dome */
+    .bubble-cap::before {
+      content: '';
+      position: absolute;
+      top: 14%;
+      left: 14%;
+      width: 28%;
+      height: 28%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 75%);
+      transform: rotate(-45deg);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.15s ease;
+    }
+
+    /* Hover scale-up on desktop */
+    @media (hover: hover) {
+      .bubble:not(.popped):hover .bubble-cap {
+        transform: scale(1.08) translateZ(5px);
+        box-shadow: var(--bubble-hover-shadow);
+      }
+    }
+
+    /* Popped State */
+    .bubble.popped .bubble-cap {
+      transform: scale(0.92) translateZ(-4px);
+      background: var(--bubble-popped-bg);
+      box-shadow: var(--bubble-popped-shadow);
+      opacity: 0.65;
+    }
+
+    .bubble.popped .bubble-cap::before {
+      opacity: 0;
+    }
+
+    /* Popped Ruptured Center Ring */
+    .bubble.popped .bubble-cap::after {
+      content: '';
+      position: absolute;
+      top: 22%;
+      left: 22%;
+      width: 56%;
+      height: 56%;
+      border-radius: 50%;
+      border: 1px dashed var(--rupture-color);
+      opacity: 0.45;
+      pointer-events: none;
+      transition: border-color 0.5s ease;
+    }
+
+    /* Staggered Reinflating Class */
+    .bubble.reinflating .bubble-cap {
+      animation: reinflate-spring 0.45s var(--spring-easing) forwards;
+    }
+
+    @keyframes reinflate-spring {
+      0% {
+        transform: scale(0.92);
+        opacity: 0.65;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* --- BUBBLE SKINS CONFIGURATIONS --- */
+
+    /* 1. Holographic Skin: Rainbow Shimmer shifting overlay */
+    .bubble[data-skin="holographic"] .bubble-cap {
+      background: radial-gradient(circle at 35% 35%, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(236, 72, 153, 0.3) 25%, 
+        rgba(6, 182, 212, 0.3) 50%, 
+        rgba(234, 179, 8, 0.2) 75%, 
+        rgba(168, 85, 247, 0.4) 100%
+      );
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), inset -2px -2px 5px rgba(0, 0, 0, 0.05), inset 2px 2px 5px rgba(255, 255, 255, 0.8);
+      background-size: 200% 200%;
+      animation: holo-shimmer 6s linear infinite alternate;
+    }
+    
+    @keyframes holo-shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* 2. Glow Skin: Neon glowing borders & outer shadow */
+    .bubble[data-skin="glow"] .bubble-cap {
+      background: radial-gradient(circle at 35% 35%, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(59, 130, 246, 0.15) 30%, 
+        rgba(139, 92, 246, 0.25) 75%, 
+        rgba(236, 72, 153, 0.4) 100%
+      );
+      box-shadow: 0 0 10px rgba(236, 72, 153, 0.5), inset 0 0 8px rgba(236, 72, 153, 0.6), inset 2px 2px 4px rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+    [data-theme="neon"] .bubble[data-skin="glow"] .bubble-cap {
+      box-shadow: 0 0 14px rgba(0, 242, 254, 0.8), inset 0 0 10px rgba(0, 242, 254, 0.9);
+      border: 1px solid rgba(0, 242, 254, 0.5);
+    }
+
+    /* 3. Cosmic Shard Skin: Dark cosmic stardust space dome */
+    .bubble[data-skin="cosmic"] .bubble-cap {
+      background: radial-gradient(circle at 35% 35%, 
+        rgba(255, 255, 255, 0.85) 0%, 
+        rgba(244, 63, 94, 0.15) 30%, 
+        rgba(79, 70, 229, 0.3) 70%, 
+        rgba(15, 23, 42, 0.95) 100%
+      );
+      box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3), inset -2px -2px 6px rgba(0, 0, 0, 0.8), inset 2px 2px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    /* --- SPECIAL BUBBLE OVERRIDES --- */
+
+    /* Golden Bubble: Shimmering gold gradient */
+    .bubble.golden .bubble-cap {
+      background: radial-gradient(circle at 35% 35%, 
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(255, 215, 0, 0.4) 20%, 
+        rgba(218, 165, 32, 0.4) 60%, 
+        rgba(139, 69, 19, 0.5) 100%
+      ) !important;
+      box-shadow: 0 4px 12px rgba(218, 165, 32, 0.4), inset -2px -2px 5px rgba(139, 69, 19, 0.3), inset 2px 2px 5px rgba(255, 255, 255, 0.9) !important;
+      animation: gold-shimmer-glow 2.2s ease-in-out infinite alternate !important;
+      border: 1px solid rgba(218, 165, 32, 0.3) !important;
+    }
+
+    @keyframes gold-shimmer-glow {
+      0% { transform: scale(1); filter: brightness(1); }
+      100% { transform: scale(1.04); filter: brightness(1.2); }
+    }
+
+    /* Popped visual remains gold but flat */
+    .bubble.popped.golden .bubble-cap {
+      transform: scale(0.92) translateZ(-4px) !important;
+      background: radial-gradient(circle at 50% 50%, rgba(218, 165, 32, 0.05) 0%, rgba(218, 165, 32, 0.15) 100%) !important;
+      box-shadow: inset 1px 1px 3px rgba(139, 69, 19, 0.3), inset -1px -1px 3px rgba(255, 255, 255, 0.4) !important;
+      animation: none !important;
+    }
+
+    /* --- DAILY MORNING SHEET STYLING --- */
+
+    /* Dashboard Gold Glowing Border */
+    .bubble-grid.daily-sheet {
+      border: 2.5px dashed rgba(245, 158, 11, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.08);
+      position: relative;
+    }
+
+    /* Morning sheet indicator badge */
+    .daily-sheet-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      padding: 4px 14px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+      z-index: 10;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* Particle Sparks for Popping Visual Burst */
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 1000;
+      box-shadow: inset -1px -1px 2px rgba(0,0,0,0.1), inset 1px 1px 2px rgba(255,255,255,0.7);
+      animation: particle-burst 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes particle-burst {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0.1) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+    /* Bottom Achievements & Stats Button */
+    .bottom-bar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .btn-stats {
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--header-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border-radius: 99px;
+      font-weight: 600;
+    }
+
+    .btn-stats:hover {
+      background: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    /* Stats Dialog Styling (Baseline dialog) */
+    .stats-dialog {
+      border: 1px solid var(--dialog-border);
+      border-radius: 16px;
+      padding: 24px;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      max-width: 440px;
+      width: 90%;
+      color: var(--text-color);
+      outline: none;
+      margin: auto;
+      transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+    }
+
+    .stats-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .dialog-content h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dialog-content h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 20px 0 10px;
+      color: var(--text-muted);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.02);
+    }
+
+    [data-theme="neon"] .stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .badge-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 180px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    [data-theme="neon"] .badge {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge.locked {
+      opacity: 0.45;
+      filter: grayscale(1);
+    }
+
+    .badge.unlocked {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+
+    [data-theme="neon"] .badge.unlocked {
+      background: rgba(236, 72, 153, 0.08);
+      border-color: rgba(236, 72, 153, 0.25);
+    }
+
+    .badge-icon {
+      font-size: 1.5rem;
+    }
+
+    .badge-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .badge-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .badge-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    /* Scrollbar customizing */
+    .badge-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .badge-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .badge-list::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 99px;
+    }
+    [data-theme="neon"] .badge-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* User Profile section in header */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-right: 1px solid rgba(0, 0, 0, 0.08);
+      padding-right: 16px;
+    }
+
+    [data-theme="neon"] .user-profile {
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .user-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-color);
+      max-width: 110px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-auth-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border: 1px solid var(--header-border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    [data-theme="neon"] .btn-auth-trigger {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-auth-trigger:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .btn-logout {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    /* Auth Dialog styling rules */
+    .auth-dialog {
+      max-width: 400px;
+    }
+
+    .auth-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .input-group input {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 9px 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.4);
+      color: var(--text-color);
+      outline: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    [data-theme="neon"] .input-group input {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent-color);
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    [data-theme="neon"] .input-group input:focus {
+      background-color: rgba(30, 41, 59, 0.8);
+    }
+
+    .dialog-actions-auth {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .buttons-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+
+    .btn-text:hover {
+      color: var(--accent-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--accent-color);
+      color: var(--accent-color);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    [data-theme="neon"] .btn-outline {
+      border: 1.5px solid rgba(236, 72, 153, 0.5);
+      color: #ec4899;
+    }
+
+    [data-theme="neon"] .btn-outline:hover {
+      background: rgba(236, 72, 153, 0.1);
+    }
+
+    .auth-error-msg {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.08);
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: none;
+      text-align: left;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Landing screen styling (Full-screen first visit) */
+    .landing-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-gradient);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .landing-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .landing-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--dialog-border);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+      max-width: 420px;
+      width: 100%;
+      padding: 36px 32px;
+      text-align: center;
+      transition: background 0.5s ease, border-color 0.5s ease;
+    }
+
+    .landing-header {
+      margin-bottom: 24px;
+    }
+
+    .landing-bubble-logo {
+      font-size: 3.5rem;
+      display: inline-block;
+      animation: floating-logo 3.5s ease-in-out infinite;
+    }
+
+    @keyframes floating-logo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .landing-header h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .landing-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .tabs-header {
+      display: flex;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+    }
+
+    [data-theme="neon"] .tabs-header {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--text-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    [data-theme="neon"] .tab-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+    }
+
+    .btn-block {
+      width: 100%;
+      padding: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .landing-footer {
+      margin-top: 24px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding-top: 18px;
+    }
+
+    [data-theme="neon"] .landing-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Stats Panel Drawer (Left Sidebar) */
+    .stats-panel-drawer {
+      position: fixed;
+      top: 76px;
+      bottom: 0;
+      left: -340px; /* Hidden default */
+      width: 320px;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-right: 1px solid var(--header-border);
+      box-shadow: 10px 0 35px rgba(0, 0, 0, 0.05);
+      z-index: 90;
+      transition: left 0.4s var(--spring-easing);
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      color: var(--text-color);
+    }
+
+    .stats-panel-drawer.open {
+      left: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding-bottom: 12px;
+    }
+
+    [data-theme="neon"] .drawer-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .drawer-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .btn-close-icon {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close-icon:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--text-color);
+    }
+
+    [data-theme="neon"] .btn-close-icon:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .drawer-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .stats-section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin: 20px 0 10px;
+    }
+
+    .user-stats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    [data-theme="neon"] .user-stats-list {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .drawer-stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .drawer-stat-item .label {
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .drawer-stat-item .value {
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    /* Leaderboard Styling */
+    .leaderboard-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .leaderboard-list li {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    [data-theme="neon"] .leaderboard-list li {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .leaderboard-list li .rank {
+      font-weight: 700;
+      width: 28px;
+      color: var(--text-muted);
+    }
+
+    .leaderboard-list li .name {
+      flex-grow: 1;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 8px;
+    }
+
+    .leaderboard-list li .score {
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    /* Database warning banner */
+    .db-warning-banner {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(245, 158, 11, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #78350f;
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* --- SKINS MENU DRAW ITEMS --- */
+    .skins-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .skin-card {
+      background: rgba(0, 0, 0, 0.02);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    [data-theme="neon"] .skin-card {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .skin-card.selected {
+      border-color: var(--accent-color);
+      background: rgba(59, 130, 246, 0.05);
+    }
+    [data-theme="neon"] .skin-card.selected {
+      background: rgba(236, 72, 153, 0.08);
+      border-color: var(--accent-color);
+    }
+    .skin-card.locked {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .skin-preview {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .skin-preview .bubble-cap {
+      width: 36px !important;
+      height: 36px !important;
+      top: 4px !important;
+      left: 4px !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06), inset -1px -1px 3px rgba(0,0,0,0.05), inset 1px 1px 3px rgba(255,255,255,0.8);
+      pointer-events: none;
+    }
+    .skin-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .skin-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* --- TOAST NOTIFICATIONS BANNER --- */
+    .toast-notification {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border-radius: 99px;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 3000;
+      transition: transform 0.4s var(--spring-easing);
+      color: var(--text-color);
+      pointer-events: none;
+    }
+    [data-theme="neon"] .toast-notification {
+      background: rgba(17, 24, 39, 0.88);
+      border: 1.5px solid rgba(236, 72, 153, 0.25);
+    }
+    .toast-notification.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Screen Resizing and Mobile responsiveness adjustments */
+    @media (max-width: 900px) {
+      .header {
+        height: auto;
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .header-left {
+        width: 100%;
+        justify-content: center;
+      }
+      .header-center {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+      }
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .control-group {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 8px;
+      }
+      .stats-mini {
+        border-right: none;
+        padding-right: 0;
+        justify-content: space-around;
+        flex-grow: 1;
+      }
+      .user-profile {
+        border-right: none;
+        padding-right: 0;
+        justify-content: center;
+        flex-grow: 1;
+      }
+      .grid-container {
+        top: 172px;
+      }
+      .stats-panel-drawer {
+        top: 172px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid-container {
+        top: 184px;
+        padding: 6px;
+      }
+      .stats-panel-drawer {
+        top: 0;
+        left: -100vw;
+        width: 100vw;
+        height: 100vh;
+        z-index: 2000;
+      }
+      .stats-panel-drawer.open {
+        left: 0;
+      }
+      .control-group {
+        grid-template-columns: 1fr auto;
+      }
+      #theme-selector {
+        grid-column: span 1;
+      }
+      #sound-preset {
+        grid-column: span 1;
+      }
+      #refill-btn {
+        grid-column: span 2;
+        width: 100%;
+        justify-content: center;
+      }
+      .stats-mini {
+        display: none; /* Hide mini stats in header for very small screens to fit controls */
+      }
+      .user-profile {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 4px;
+      }
+      .grid-container {
+        top: 226px;
+      }
+    }
+
+    /* --- ADMIN DASHBOARD CSS (DARK BY DEFAULT) --- */
+    .admin-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #090d16;
+      color: #e5e7eb;
+      display: flex;
+      z-index: 10000;
+      font-family: inherit;
+    }
+
+    .admin-sidebar {
+      width: 250px;
+      background: #0f172a;
+      border-right: 1px solid #1e293b;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+    }
+
+    .sidebar-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-grow: 1;
+    }
+
+    .sidebar-menu li {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #94a3b8;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-menu li:hover, .sidebar-menu li.active {
+      color: #ffffff;
+      background: #1e293b;
+    }
+
+    .sidebar-menu li.active {
+      border-left: 3px solid #ec4899;
+    }
+
+    .admin-content {
+      flex-grow: 1;
+      padding: 32px;
+      overflow-y: auto;
+      background: #090d16;
+    }
+
+    .admin-view-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    /* KPI Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .metric-card .title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .metric-card .value {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #ec4899;
+    }
+
+    .metric-card .subtitle {
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+
+    /* Charts Layout */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 1024px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 320px;
+    }
+
+    .chart-card.full-width {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 1024px) {
+      .chart-card.full-width {
+        grid-column: span 1;
+      }
+    }
+
+    .chart-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #f3f4f6;
+    }
+
+    .chart-container-inner {
+      flex-grow: 1;
+      position: relative;
+      height: 240px;
+    }
+
+    /* Users Table controls & Styling */
+    .table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-search-input {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      outline: none;
+      font-size: 0.85rem;
+      width: 260px;
+    }
+
+    .admin-search-input:focus {
+      border-color: #ec4899;
+    }
+
+    .table-container {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    .admin-table th, .admin-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .admin-table th {
+      background: #1e293b;
+      color: #94a3b8;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .admin-table th:hover {
+      color: #ffffff;
+    }
+
+    .admin-table tbody tr:hover {
+      background: #1e293b;
+    }
+
+    /* Pagination controls */
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    .pagination-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Logs & Health Columns */
+    .logs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .logs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .log-panel {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .log-panel h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .error-counter-badge {
+      background: #ef4444;
+      color: #ffffff;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .log-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .log-list li {
+      padding: 10px;
+      border-radius: 6px;
+      background: #090d16;
+      font-family: monospace;
+      font-size: 0.72rem;
+      line-height: 1.4;
+      border-left: 3px solid #64748b;
+    }
+
+    .log-list li.sync-event {
+      border-left-color: #10b981;
+    }
+
+    .log-list li.signup-event {
+      border-left-color: #3b82f6;
+    }
+
+    .log-list li.error-event {
+      border-left-color: #ef4444;
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .log-timestamp {
+      color: #64748b;
+      margin-bottom: 2px;
+      font-size: 0.65rem;
+    }
+
+    /* Admin log gate card overlay styling */
+    .admin-gate-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #090d16;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 12000;
+      padding: 20px;
+    }
+
+    /* Play blocker overlay for admins */
+    .admin-play-blocker {
+      position: fixed;
+      top: 76px; /* below header */
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    .admin-play-blocker.hidden {
+      display: none !important;
+    }
+    .blocker-card {
+      background: var(--card-bg);
+      border: 1px solid var(--dialog-border);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    .blocker-icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 16px;
+    }
+    .blocker-card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+    .blocker-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .blocker-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* Incognito Excel Stealth Screen */
+    .stealth-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #f3f2f1;
+      z-index: 20000; /* above everything */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #323130;
+      display: flex;
+      flex-direction: column;
+      user-select: text;
+      -webkit-user-select: text;
+      touch-action: auto;
+    }
+    .stealth-overlay.hidden {
+      display: none !important;
+    }
+    .excel-header-ribbon {
+      background: #107c41;
+      color: white;
+      padding: 0;
+    }
+    .excel-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      background: #0f703b;
+    }
+    .excel-close-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 2px 8px;
+    }
+    .excel-close-btn:hover {
+      background: #e81123;
+    }
+    .excel-ribbon-tabs {
+      display: flex;
+      padding-left: 12px;
+      background: #107c41;
+      font-size: 0.8rem;
+    }
+    .excel-ribbon-tabs span {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    .excel-ribbon-tabs span.active {
+      background: #f3f2f1;
+      color: #107c41;
+      font-weight: 600;
+      border-radius: 4px 4px 0 0;
+    }
+    .excel-formula-bar {
+      background: #f3f2f1;
+      border-bottom: 1px solid #d2d0ce;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      color: #323130;
+      font-size: 0.8rem;
+    }
+    .excel-cell-name {
+      padding: 2px 10px;
+      border-right: 1px solid #d2d0ce;
+      background: white;
+      min-width: 40px;
+      text-align: center;
+    }
+    .excel-formula-input {
+      padding: 2px 10px;
+      background: white;
+      flex-grow: 1;
+      margin-left: 4px;
+      border: 1px solid #d2d0ce;
+      font-family: Consolas, monospace;
+    }
+    .excel-sheet-grid {
+      flex-grow: 1;
+      overflow: auto;
+      background: white;
+    }
+    .excel-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.8rem;
+    }
+    .excel-table th, .excel-table td {
+      border: 1px solid #d2d0ce;
+      padding: 4px 8px;
+      text-align: left;
+      height: 24px;
+    }
+    .excel-table th {
+      background: #f3f2f1;
+      font-weight: normal;
+      color: #595959;
+      text-align: center;
+      width: 80px;
+    }
+    .excel-table th:first-child, .excel-table td:first-child {
+      width: 40px;
+      background: #f3f2f1;
+      color: #595959;
+      text-align: center;
+    }
+    .excel-cell {
+      background: white;
+    }
+    .row-num {
+      font-weight: bold;
+    }
+    .num-cell {
+      text-align: right;
+    }
+    .bold-text {
+      font-weight: bold;
+    }
+    .highlight-cell {
+      background: #ffeb9c;
+      color: #9c6500;
+    }
+    .highlight-cell-green {
+      background: #c6efce;
+      color: #006100;
+    }
+    .excel-mock-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      height: 120px;
+      border-left: 2px solid #a19f9d;
+      border-bottom: 2px solid #a19f9d;
+      padding: 10px;
+      margin: 10px 0;
+      width: 300px;
+    }
+    .chart-bar {
+      width: 40px;
+      transition: height 0.5s ease;
+    }
+    .excel-footer-bar {
+      background: #f3f2f1;
+      border-top: 1px solid #d2d0ce;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      color: #595959;
+    }
+    .sheet-tabs {
+      background: white;
+      color: #107c41;
+      font-weight: bold;
+      padding: 2px 12px;
+      border-top: 2px solid #107c41;
+    }
+
+    /* Corporate Mindful Break Overlay Styles */
+    .mindful-break-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .mindful-break-overlay.hidden {
+      display: none !important;
+    }
+    .mindful-card {
+      background: var(--card-bg);
+      border: 1px solid var(--dialog-border);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      color: var(--text-color);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    }
+    .mindful-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      margin-bottom: 24px;
+    }
+    .breathing-circle-container {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .breathing-circle {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.4) 0%, rgba(16, 185, 129, 0.15) 70%);
+      border: 2px solid #10b981;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+      transition: transform 4s linear;
+    }
+    .breathing-circle.inhale {
+      transform: scale(2.0);
+    }
+    .breathing-circle.hold {
+      /* Keep scale */
+    }
+    .breathing-circle.exhale {
+      transform: scale(1.0);
+    }
+    .breathing-label {
+      position: relative;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-color);
+      z-index: 10;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .breathing-instruction {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-color);
+      min-height: 24px;
+      margin-bottom: 20px;
+    }
+    .mindful-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .mindful-progress-fill {
+      height: 100%;
+      width: 0;
+      background: #10b981;
+      border-radius: 99px;
+      transition: width 1s linear;
+    }
+    .mindful-timer {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Admin Panel Container -->
+  <div id="admin-panel-container" class="admin-panel hidden">
+    <!-- Sidebar navigation -->
+    <div class="admin-sidebar">
+      <div class="sidebar-logo">🫧 Admin Panel</div>
+      <ul class="sidebar-menu">
+        <li class="active" data-tab="overview">📊 Overview</li>
+        <li data-tab="charts">📈 Charts</li>
+        <li data-tab="users">👥 Users Index</li>
+        <li data-tab="logs">🪵 System Logs</li>
+      </ul>
+      <div class="sidebar-footer">
+        <button id="admin-back-btn" class="btn btn-outline" style="border-color:#ec4899; color:#ec4899; width:100%; justify-content:center;">⬅ Back to App</button>
+      </div>
+    </div>
+    
+    <!-- Main content dashboard area -->
+    <div class="admin-content">
+      <!-- Overview tab view -->
+      <div id="admin-tab-overview" class="admin-tab-view">
+        <h2 class="admin-view-title">Dashboard Overview</h2>
+        
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="title">Total Users</span>
+            <span class="value" id="metric-total-users">0</span>
+            <span class="subtitle">Registered players in database</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">All-Time Pops</span>
+            <span class="value" id="metric-alltime-pops">0</span>
+            <span class="subtitle">Cumulative pops across all users</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">Pops Today</span>
+            <span class="value" id="metric-pops-today">0</span>
+            <span class="subtitle">Total popped in current calendar day</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">Active Users (DAU / WAU)</span>
+            <span class="value" id="metric-active-users">0 / 0</span>
+            <span class="subtitle">Active today vs active this week</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">Signups (Today / Week)</span>
+            <span class="value" id="metric-signups-week">0 / 0</span>
+            <span class="subtitle">New account registries created</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">Average Pops / User</span>
+            <span class="value" id="metric-avg-pops">0</span>
+            <span class="subtitle">Pops per registered user account</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">Total Refills</span>
+            <span class="value" id="metric-total-refills">0</span>
+            <span class="subtitle">Times bubble sheets refilled</span>
+          </div>
+          <div class="metric-card">
+            <span class="title">Active Streaks</span>
+            <span class="value" id="metric-active-streaks">0</span>
+            <span class="subtitle">Users with active daily streak &gt; 0</span>
+          </div>
+        </div>
+
+        <div class="logs-grid" style="margin-top: 24px;">
+          <div class="log-panel">
+            <h3>👥 Recent Signups</h3>
+            <ul class="log-list" id="overview-recent-signups">
+              <!-- populated in rendering -->
+            </ul>
+          </div>
+          <div class="log-panel">
+            <h3>⚡ Recent DB Activity</h3>
+            <ul class="log-list" id="overview-recent-syncs">
+              <!-- populated in rendering -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Charts tab view -->
+      <div id="admin-tab-charts" class="admin-tab-view hidden">
+        <h2 class="admin-view-title">Analytics & Visualizations</h2>
+        <div class="charts-grid">
+          <div class="chart-card full-width">
+            <h3>Daily Active Users & Pops (Last 30 Days)</h3>
+            <div class="chart-container-inner">
+              <canvas id="chart-dau-pops"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3>Signups Trend (Last 30 Days)</h3>
+            <div class="chart-container-inner">
+              <canvas id="chart-signups"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3>Skin Popularity</h3>
+            <div class="chart-container-inner">
+              <canvas id="chart-skins"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3>Streak Distribution</h3>
+            <div class="chart-container-inner">
+              <canvas id="chart-streaks"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Users tab view -->
+      <div id="admin-tab-users" class="admin-tab-view hidden">
+        <h2 class="admin-view-title">Registered Users Index</h2>
+        <div class="table-controls">
+          <input type="text" id="admin-user-search" class="admin-search-input" placeholder="Search by name or email...">
+          <span id="table-page-info" style="font-size:0.85rem; color:#94a3b8;">Showing 0-0 of 0 users</span>
+        </div>
+        
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-col="displayName">Name</th>
+                <th data-col="email">Email</th>
+                <th data-col="signupDate">Signup Date</th>
+                <th data-col="totalPopped">Total Pops</th>
+                <th data-col="dailyStreak">Daily Streak</th>
+                <th data-col="lastActiveDate">Last Active</th>
+                <th data-col="selectedSkin">Selected Skin</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="pagination-bar">
+          <span>Sort columns by clicking headers.</span>
+          <div class="pagination-buttons">
+            <button id="btn-table-prev" class="btn btn-outline" style="border-color:#1e293b; color:#94a3b8; padding:4px 12px; font-size:0.8rem;">◀ Prev</button>
+            <button id="btn-table-next" class="btn btn-outline" style="border-color:#1e293b; color:#94a3b8; padding:4px 12px; font-size:0.8rem;">Next ▶</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Logs tab view -->
+      <div id="admin-tab-logs" class="admin-tab-view hidden">
+        <h2 class="admin-view-title">System Logs & Health Monitoring</h2>
+        <div class="logs-grid">
+          <div class="log-panel">
+            <h3>👥 User Registration Logs</h3>
+            <ul class="log-list" id="log-list-signups">
+              <!-- populated in rendering -->
+            </ul>
+          </div>
+          <div class="log-panel">
+            <h3>🪵 Write Sync Event Feed <span class="error-counter-badge hidden" id="admin-error-badge">0</span></h3>
+            <ul class="log-list" id="log-list-sync">
+              <!-- populated in rendering -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Loading Card -->
+  <div id="admin-loading-overlay" class="admin-gate-overlay hidden">
+    <div class="landing-card" style="background:#0f172a; border-color:#1e293b; color:#e5e7eb; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px;">
+      <span class="landing-bubble-logo" style="animation: floating-logo 2s ease-in-out infinite;">🫧</span>
+      <h2 style="font-size:1.3rem; font-weight:700; margin-top:16px; color:#ec4899;">Verifying Credentials...</h2>
+      <p style="font-size:0.8rem; color:#64748b; margin-top:6px;">Checking admin privileges. Please wait.</p>
+    </div>
+  </div>
+
+  <!-- Admin Login Gate Card -->
+  <div id="admin-gate-card" class="admin-gate-overlay hidden">
+    <div class="landing-card" style="background:#0f172a; border-color:#1e293b; color:#e5e7eb;">
+      <div class="landing-header">
+        <span class="landing-bubble-logo">🔐</span>
+        <h2>Admin Console Gate</h2>
+        <p>Restricted access. Authenticate to proceed.</p>
+      </div>
+      
+      <div id="admin-login-error" class="auth-error-msg"></div>
+      <form id="admin-login-form">
+        <div class="input-group">
+          <label for="admin-login-email" style="color:#94a3b8;">Admin Email</label>
+          <input type="email" id="admin-login-email" required placeholder="admin@example.com" autocomplete="email" style="background:#090d16; border-color:#1e293b; color:#ffffff;">
+        </div>
+        <div class="input-group">
+          <label for="admin-login-password" style="color:#94a3b8;">Password</label>
+          <input type="password" id="admin-login-password" required placeholder="Enter password" autocomplete="current-password" style="background:#090d16; border-color:#1e293b; color:#ffffff;">
+        </div>
+        <button type="submit" class="btn btn-block">Log In & Verify</button>
+      </form>
+      <div class="landing-footer" style="border-color:#1e293b; margin-top:20px; padding-top:14px;">
+        <button id="admin-gate-cancel" class="btn-text" style="color:#94a3b8;">Return to Main App</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Celebrating unlocks toast -->
+  <div id="unlock-toast" class="toast-notification" aria-live="polite">
+    <span class="toast-icon">✨</span>
+    <span id="unlock-toast-msg">New skin unlocked!</span>
+  </div>
+
+  <!-- Landing / Auth screen (Shown first visit if not logged in) -->
+  <div id="landing-screen" class="landing-screen">
+    <div class="landing-card">
+      <div class="landing-header">
+        <span class="landing-bubble-logo">🫧</span>
+        <h2>Virtual Bubble Wrap</h2>
+        <p>Tactile stress relief & popping stats tracker</p>
+      </div>
+
+      <div class="tabs-header">
+        <button id="tab-btn-login" class="tab-btn active" aria-label="Switch to Login form">Log In</button>
+        <button id="tab-btn-signup" class="tab-btn" aria-label="Switch to Sign Up form">Sign Up</button>
+      </div>
+
+      <!-- Log In -->
+      <div id="tab-content-login" class="tab-content">
+        <div id="landing-login-error" class="auth-error-msg"></div>
+        <form id="landing-login-form">
+          <div class="input-group">
+            <label for="landing-login-email">Email Address</label>
+            <input type="email" id="landing-login-email" required placeholder="name@example.com" autocomplete="email">
+          </div>
+          <div class="input-group">
+            <label for="landing-login-password">Password</label>
+            <input type="password" id="landing-login-password" required placeholder="Enter your password" autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-block">Log In</button>
+        </form>
+      </div>
+
+      <!-- Sign Up -->
+      <div id="tab-content-signup" class="tab-content hidden">
+        <div id="landing-signup-error" class="auth-error-msg"></div>
+        <form id="landing-signup-form">
+          <div class="input-group">
+            <label for="landing-signup-name">Display Name</label>
+            <input type="text" id="landing-signup-name" required placeholder="Pick a username" autocomplete="username">
+          </div>
+          <div class="input-group">
+            <label for="landing-signup-email">Email Address</label>
+            <input type="email" id="landing-signup-email" required placeholder="name@example.com" autocomplete="email">
+          </div>
+          <div class="input-group">
+            <label for="landing-signup-password">Password</label>
+            <input type="password" id="landing-signup-password" required placeholder="At least 6 characters" autocomplete="new-password">
+          </div>
+          <div class="input-group">
+            <label for="landing-signup-confirm">Confirm Password</label>
+            <input type="password" id="landing-signup-confirm" required placeholder="Re-enter password" autocomplete="new-password">
+          </div>
+          <button type="submit" class="btn btn-block">Create Account</button>
+        </form>
+      </div>
+
+      <div class="landing-footer">
+        <button id="continue-guest-btn" class="btn-text" aria-label="Skip and play as guest">Continue as Guest (local-only stats)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Header -->
+  <header class="header">
+    <div class="header-left">
+      <h1>🫧 Bubble Wrap</h1>
+    </div>
+    
+    <div class="header-center">
+      <div class="counter-label">POPPED: <span id="popped-count">0</span> / <span id="total-count">0</span></div>
+      <div class="progress-bar">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <!-- User profile block -->
+      <div class="user-profile" id="user-profile-section">
+        <!-- Populated dynamically by JS module -->
+      </div>
+
+      <div class="stats-mini">
+        <div class="stat-item" title="Current Speed (Pops Per Minute)">
+          <span class="stat-value" id="ppm-val">0</span>
+          <span class="stat-lbl">PPM</span>
+        </div>
+        <div class="stat-item" title="Active Combo Streak">
+          <span class="stat-value" id="streak-val">0</span>
+          <span class="stat-lbl">STREAK</span>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <button id="mindful-break-toggle-btn" class="btn btn-auth-trigger" aria-label="Start Mindful Breathing Break" style="border-color:#10b981; color:#10b981;">
+          🧘 Mindful Break
+        </button>
+
+        <button id="stealth-mode-toggle-btn" class="btn btn-auth-trigger" aria-label="Toggle Incognito Stealth Mode" style="border-color:#64748b; color:#64748b;">
+          💼 Stealth Mode
+        </button>
+
+        <button id="stats-panel-toggle-btn" class="btn btn-auth-trigger" aria-label="Toggle Statistics Panel">
+          📊 Stats
+        </button>
+
+        <select id="sound-preset" aria-label="Select Pop Sound Effects">
+          <option value="classic">🔊 Classic Snap</option>
+          <option value="deep">🔊 Deep Pop</option>
+          <option value="crack">🔊 Plastic Crack</option>
+          <option value="plop">🔊 Soft Plop</option>
+          <option value="muted">🔇 Muted</option>
+        </select>
+        
+        <select id="theme-selector" aria-label="Select Theme Background">
+          <option value="classic">🎨 Classic Glass</option>
+          <option value="neon">🎨 Velvet Neon</option>
+          <option value="mint">🎨 Neo-Mint</option>
+          <option value="sunset">🎨 Golden Sunset</option>
+          <option value="cherry">🎨 Cherry Blossom</option>
+        </select>
+        
+        <button id="refill-btn" class="btn" aria-label="Refill Bubble Wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Refill
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sliding drawer stats panel -->
+  <div id="stats-panel" class="stats-panel-drawer">
+    <div class="drawer-header">
+      <h2>📊 Bubble Metrics</h2>
+      <button id="close-stats-panel-btn" class="btn-close-icon" aria-label="Close Statistics Panel">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    
+    <div class="drawer-body">
+      <div class="stats-section-title" id="drawer-user-label">Your Stats</div>
+      <div class="user-stats-list">
+        <div class="drawer-stat-item">
+          <span class="label">All-time Popped</span>
+          <span class="value" id="drawer-total-popped">0</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Popped Today</span>
+          <span class="value" id="drawer-popped-today">0</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Daily Sheet Streak</span>
+          <span class="value" id="drawer-daily-streak">0 days</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Weekly Freezes Left</span>
+          <span class="value" id="drawer-freezes-left">1</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Current Bubble Skin</span>
+          <span class="value" id="drawer-current-skin">Classic</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Skins Unlocked</span>
+          <span class="value" id="drawer-skins-unlocked">1 / 6</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Sheets Refilled</span>
+          <span class="value" id="drawer-sheets-refilled">0</span>
+        </div>
+        <div class="drawer-stat-item">
+          <span class="label">Last Active Date</span>
+          <span class="value" id="drawer-last-active">Never</span>
+        </div>
+      </div>
+      
+      <div class="stats-section-title">Bubble Skins</div>
+      <div class="skins-grid" id="skins-grid-container">
+        <!-- Loaded dynamically -->
+      </div>
+
+      <div class="stats-section-title">🏆 Global Leaderboard</div>
+      <ol class="leaderboard-list" id="leaderboard-body">
+        <!-- Populated dynamically by script -->
+      </ol>
+    </div>
+  </div>
+
+  <!-- Simulated Mode warning banner (Appears if credentials not filled) -->
+  <div id="db-warning" class="db-warning-banner hidden">
+    <span>⚠️ Database Local Simulation Mode active. Config Firebase in source.</span>
+  </div>
+
+  <!-- Blocker panel for admin play restriction -->
+  <div id="admin-play-blocker" class="admin-play-blocker hidden">
+    <div class="blocker-card">
+      <span class="blocker-icon">🛡️</span>
+      <h2>Admin Analytics Session</h2>
+      <p>Interactive gameplay is disabled for system administrators. Access the admin dashboard for full analytics and logs.</p>
+      <div class="blocker-actions">
+        <button id="blocker-admin-btn" class="btn">📊 Admin Dashboard</button>
+        <button id="blocker-logout-btn" class="btn btn-outline" style="border-color:#ef4444; color:#ef4444;">🚪 Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Excel Incognito Stealth Mode Screen Overlay -->
+  <div id="stealth-overlay" class="stealth-overlay hidden">
+    <div class="excel-header-ribbon">
+      <div class="excel-top-bar">
+        <span class="excel-title">Book1 - Microsoft Excel (Productivity Mode)</span>
+        <button id="exit-stealth-btn" class="excel-close-btn" title="Close Stealth Mode">✕</button>
+      </div>
+      <div class="excel-ribbon-tabs">
+        <span class="active">File</span>
+        <span>Home</span>
+        <span>Insert</span>
+        <span>Page Layout</span>
+        <span>Formulas</span>
+        <span>Data</span>
+        <span>Review</span>
+        <span>View</span>
+        <span>Help</span>
+      </div>
+      <div class="excel-formula-bar">
+        <div class="excel-cell-name">A1</div>
+        <div class="excel-formula-input">=SUM(B2:D2) * Wellness_Factor</div>
+      </div>
+    </div>
+    <div class="excel-sheet-grid">
+      <table class="excel-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
+            <th>G</th>
+            <th>H</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-num">1</td>
+            <td class="excel-cell bold-text">Q3 Corporate Analysis</td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">2</td>
+            <td class="excel-cell">Stress Metrics</td>
+            <td class="excel-cell num-cell">42.5</td>
+            <td class="excel-cell num-cell">38.2</td>
+            <td class="excel-cell num-cell">31.4</td>
+            <td class="excel-cell num-cell">22.8</td>
+            <td class="excel-cell highlight-cell num-cell">134.9</td>
+            <td class="excel-cell">Active</td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">3</td>
+            <td class="excel-cell">Bubble Wrap Break Allocation</td>
+            <td class="excel-cell num-cell">12.0%</td>
+            <td class="excel-cell num-cell">15.0%</td>
+            <td class="excel-cell num-cell">10.0%</td>
+            <td class="excel-cell num-cell">8.0%</td>
+            <td class="excel-cell num-cell">11.25%</td>
+            <td class="excel-cell">Target Met</td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">4</td>
+            <td class="excel-cell">Heart Rate Var. (HRV)</td>
+            <td class="excel-cell num-cell">62</td>
+            <td class="excel-cell num-cell">68</td>
+            <td class="excel-cell num-cell">75</td>
+            <td class="excel-cell num-cell">82</td>
+            <td class="excel-cell num-cell">71.75</td>
+            <td class="excel-cell">Optimal</td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">5</td>
+            <td class="excel-cell">Task Productivity Index</td>
+            <td class="excel-cell num-cell">1.04</td>
+            <td class="excel-cell num-cell">1.12</td>
+            <td class="excel-cell num-cell">1.25</td>
+            <td class="excel-cell num-cell">1.38</td>
+            <td class="excel-cell num-cell">1.20</td>
+            <td class="excel-cell">Overperforming</td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">6</td>
+            <td class="excel-cell">Wellness Score</td>
+            <td class="excel-cell num-cell">78</td>
+            <td class="excel-cell num-cell">82</td>
+            <td class="excel-cell num-cell">88</td>
+            <td class="excel-cell num-cell">94</td>
+            <td class="excel-cell highlight-cell-green num-cell">85.5</td>
+            <td class="excel-cell">High</td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">7</td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+            <td class="excel-cell"></td>
+          </tr>
+          <tr>
+            <td class="row-num">8</td>
+            <td class="excel-cell bold-text">Charts & Metrics</td>
+            <td class="excel-cell" colspan="6">
+              <div class="excel-mock-chart">
+                <div class="chart-bar" style="height: 40px; background: #3b82f6;"></div>
+                <div class="chart-bar" style="height: 60px; background: #10b981;"></div>
+                <div class="chart-bar" style="height: 80px; background: #f59e0b;"></div>
+                <div class="chart-bar" style="height: 100px; background: #ef4444;"></div>
+              </div>
+            </td>
+            <td class="excel-cell"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="excel-footer-bar">
+      <span>Ready</span>
+      <span class="sheet-tabs">Sheet1</span>
+      <span>100%</span>
+    </div>
+  </div>
+
+  <!-- Mindful Breathing Box Break Widget -->
+  <div id="mindful-break-overlay" class="mindful-break-overlay hidden">
+    <div class="mindful-card">
+      <button id="close-mindful-btn" class="btn-close-icon" style="float:right;" aria-label="Close Break">✕</button>
+      <h2>🧘 Mindful Box Breathing</h2>
+      <p class="mindful-sub">Stress reduction break for desk workers</p>
+      
+      <div class="breathing-circle-container">
+        <div id="breathing-circle" class="breathing-circle"></div>
+        <div id="breathing-label" class="breathing-label">Get Ready</div>
+      </div>
+      
+      <div id="breathing-instruction" class="breathing-instruction">Preparing your wellness session...</div>
+      
+      <div class="mindful-progress-bar">
+        <div id="mindful-progress-fill" class="mindful-progress-fill"></div>
+      </div>
+      <div class="mindful-timer">Time Remaining: <span id="mindful-time-val">5:00</span></div>
+      
+      <button id="breathing-start-btn" class="btn btn-block" style="background:#10b981; margin-top:20px;">Start Breathing Session</button>
+    </div>
+  </div>
+
+  <!-- Bubble wrap layout area -->
+  <main class="grid-container" id="grid-container">
+    <div class="bubble-grid" id="bubble-grid"></div>
+  </main>
+
+  <!-- Achievements Dialog Trigger -->
+  <div class="bottom-bar">
+    <button id="stats-trigger-btn" class="btn btn-stats" aria-label="Open Achievements Dialogue">🏆 Achievements</button>
+  </div>
+
+  <!-- Native dialog achievements -->
+  <dialog id="stats-dialog" class="stats-dialog" aria-modal="true">
+    <div class="dialog-content">
+      <h2>🏆 Achievements</h2>
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num" id="stat-lifetime">0</div>
+          <div class="stat-lbl">Lifetime Pops</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-max-streak">0</div>
+          <div class="stat-lbl">Max Combo Streak</div>
+        </div>
+      </div>
+      
+      <h3>Medals Earned</h3>
+      <ul class="badge-list">
+        <li id="badge-first" class="badge locked">
+          <span class="badge-icon">🎈</span>
+          <div class="badge-info">
+            <div class="badge-name">First Pop</div>
+            <div class="badge-desc">Popped your very first bubble.</div>
+          </div>
+        </li>
+        <li id="badge-streak" class="badge locked">
+          <span class="badge-icon">🔥</span>
+          <div class="badge-info">
+            <div class="badge-name">Combo Master</div>
+            <div class="badge-desc">Achieved a 15-bubble combo streak!</div>
+          </div>
+        </li>
+        <li id="badge-century" class="badge locked">
+          <span class="badge-icon">💯</span>
+          <div class="badge-info">
+            <div class="badge-name">Century Popper</div>
+            <div class="badge-desc">Popped 100 bubbles in one session.</div>
+          </div>
+        </li>
+        <li id="badge-zen" class="badge locked">
+          <span class="badge-icon">🧘</span>
+          <div class="badge-info">
+            <div class="badge-name">Zen Master</div>
+            <div class="badge-desc">Popped 1000 lifetime bubbles.</div>
+          </div>
+        </li>
+      </ul>
+      
+      <div class="dialog-actions">
+        <button id="close-stats-btn" class="btn" aria-label="Close Achievements dialogue">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- JS Interactivity logic -->
+  <script type="module">
+    // --- Firebase Client Integrations ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const isRealDb = firebaseConfig.apiKey !== "YOUR_API_KEY" && firebaseConfig.apiKey !== "";
+    
+    let fbApp = null, fbAuth = null, fbStore = null;
+
+    if (isRealDb) {
+      try {
+        fbApp = initializeApp(firebaseConfig);
+        fbAuth = getAuth(fbApp);
+        fbStore = getFirestore(fbApp);
+        console.log("Firebase operational.");
+      } catch (err) {
+        console.warn("Firebase config error, running local simulation mode.", err);
+        fbApp = null;
+      }
+    } else {
+      console.log("No Firebase config detected. Production SQLite backend active.");
+      const dbWarning = document.getElementById('db-warning');
+      if (dbWarning) {
+        dbWarning.innerHTML = "<span>⚡ SQLite Production Backend Active</span>";
+        dbWarning.classList.remove('hidden');
+        dbWarning.style.background = "linear-gradient(90deg, #10b981, #059669)";
+      }
+    }
+
+    // --- Server API Wrapper (Replacement for Local Simulation Engine) ---
+    const localDbSimulation = {
+      currentUser: null,
+      authListeners: [],
+
+      triggerAuthChange(user) {
+        this.currentUser = user;
+        this.authListeners.forEach(cb => cb(user));
+      },
+
+      onAuthStateChanged(callback) {
+        this.authListeners.push(callback);
+        
+        // Fetch session from server on load
+        fetch('/api/auth/session')
+          .then(res => res.json())
+          .then(data => {
+            const user = data.user;
+            this.currentUser = user;
+            callback(user);
+          })
+          .catch(err => {
+            console.error("Session check failed, defaulting to null:", err);
+            this.currentUser = null;
+            callback(null);
+          });
+
+        return () => {
+          this.authListeners = this.authListeners.filter(cb => cb !== callback);
+        };
+      },
+
+      async createUserWithEmailAndPassword(email, password, displayName) {
+        const res = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, displayName })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Signup failed");
+        }
+        this.triggerAuthChange(data.user);
+        return data;
+      },
+
+      async signInWithEmailAndPassword(email, password) {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Login failed");
+        }
+        this.triggerAuthChange(data.user);
+        return data;
+      },
+
+      async signOut() {
+        const res = await fetch('/api/auth/logout', { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Logout failed");
+        }
+        this.triggerAuthChange(null);
+      },
+
+      async getStatsDoc(uid) {
+        const res = await fetch('/api/stats');
+        if (!res.ok) {
+          return { exists: () => false, data: () => null };
+        }
+        const data = await res.json();
+        return {
+          exists: () => data !== null && data !== undefined,
+          data: () => data
+        };
+      },
+
+      async setStatsDoc(uid, stats) {
+        const res = await fetch('/api/stats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(stats)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Sync failed");
+        }
+      },
+
+      async getLeaderboard() {
+        const res = await fetch('/api/leaderboard');
+        if (!res.ok) {
+          return [];
+        }
+        return await res.json();
+      }
+    };
+
+
+    // --- Web Audio Synth System ---
+    class AudioSystem {
+      constructor() {
+        this.ctx = null;
+        this.masterGain = null;
+        this.compressor = null;
+        this.preset = 'classic';
+      }
+
+      init() {
+        if (this.ctx) return;
+        try {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.setValueAtTime(0.55, this.ctx.currentTime);
+
+          // Add DynamicsCompressorNode to limit distortion on rapid popping
+          this.compressor = this.ctx.createDynamicsCompressor();
+          this.compressor.threshold.setValueAtTime(-24, this.ctx.currentTime);
+          this.compressor.knee.setValueAtTime(30, this.ctx.currentTime);
+          this.compressor.ratio.setValueAtTime(12, this.ctx.currentTime);
+          this.compressor.attack.setValueAtTime(0.003, this.ctx.currentTime);
+          this.compressor.release.setValueAtTime(0.25, this.ctx.currentTime);
+
+          this.masterGain.connect(this.compressor);
+          this.compressor.connect(this.ctx.destination);
+        } catch (e) {
+          console.error("Web Audio API is not supported in this browser:", e);
+        }
+      }
+
+      playPop(isGolden = false) {
+        if (this.preset === 'muted') return;
+        if (!this.ctx) this.init();
+        
+        // Resume if suspended by browser security logic
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+
+        const now = this.ctx.currentTime;
+        let baseFreq, endFreq, dur, snapFreq, snapDur, snapType, snapVol;
+
+        // Slight frequency jitter (randomness) for organic plastic variance
+        let jitter = 0.9 + Math.random() * 0.2; 
+
+        // Shift pitch up by 1.6x if golden bubble popped
+        if (isGolden) {
+          jitter *= 1.6;
+        }
+
+        switch (this.preset) {
+          case 'deep':
+            baseFreq = 380 * jitter;
+            endFreq = 80 * jitter;
+            dur = isGolden ? 0.06 : 0.085;
+            snapFreq = 1600 * jitter;
+            snapDur = 0.018;
+            snapType = 'triangle';
+            snapVol = 0.25;
+            break;
+          case 'crack':
+            baseFreq = 500 * jitter;
+            endFreq = 220 * jitter;
+            dur = isGolden ? 0.03 : 0.045;
+            snapFreq = 3200 * jitter;
+            snapDur = 0.015;
+            snapType = 'sawtooth';
+            snapVol = 0.16;
+            break;
+          case 'plop':
+            baseFreq = 410 * jitter;
+            endFreq = 180 * jitter;
+            dur = isGolden ? 0.04 : 0.06;
+            snapFreq = 950 * jitter;
+            snapDur = 0.008;
+            snapType = 'sine';
+            snapVol = 0.12;
+            break;
+          case 'classic':
+          default:
+            baseFreq = 620 * jitter;
+            endFreq = 145 * jitter;
+            dur = isGolden ? 0.038 : 0.055;
+            snapFreq = 2300 * jitter;
+            snapDur = 0.012;
+            snapType = 'triangle';
+            snapVol = 0.35;
+            break;
+        }
+
+        try {
+          // 1. Air cavity pop oscillator (Sine sweep)
+          const osc = this.ctx.createOscillator();
+          const gainNode = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(baseFreq, now);
+          osc.frequency.exponentialRampToValueAtTime(endFreq, now + dur);
+          
+          gainNode.gain.setValueAtTime(0.4, now);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + dur);
+          
+          osc.connect(gainNode);
+          gainNode.connect(this.masterGain);
+          osc.start(now);
+          osc.stop(now + dur);
+
+          // 2. Plastic snap click transient (High frequency snap)
+          const snapOsc = this.ctx.createOscillator();
+          const snapGain = this.ctx.createGain();
+          snapOsc.type = snapType;
+          snapOsc.frequency.setValueAtTime(snapFreq, now);
+          snapOsc.frequency.exponentialRampToValueAtTime(snapFreq * 0.1, now + snapDur);
+          
+          snapGain.gain.setValueAtTime(snapVol, now);
+          snapGain.gain.exponentialRampToValueAtTime(0.001, now + snapDur);
+          
+          snapOsc.connect(snapGain);
+          snapGain.connect(this.masterGain);
+          snapOsc.start(now);
+          snapOsc.stop(now + snapDur);
+        } catch (err) {
+          console.warn("Failed to play synthesized sound effect", err);
+        }
+      }
+
+      playRefillCascade() {
+        if (this.preset === 'muted') return;
+        if (!this.ctx) this.init();
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+
+        const now = this.ctx.currentTime;
+        try {
+          // Play a sweeping, rising wind/whoosh sound for reinflation wave
+          const osc = this.ctx.createOscillator();
+          const filter = this.ctx.createBiquadFilter();
+          const gain = this.ctx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(100, now);
+          osc.frequency.exponentialRampToValueAtTime(750, now + 0.65);
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(120, now);
+          filter.frequency.exponentialRampToValueAtTime(1200, now + 0.65);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(0.2, now + 0.18);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.masterGain);
+
+          osc.start(now);
+          osc.stop(now + 0.65);
+        } catch (err) {
+          // safe bypass
+        }
+      }
+
+      playUnlockChime() {
+        if (this.preset === 'muted') return;
+        if (!this.ctx) this.init();
+        const now = this.ctx.currentTime;
+        
+        try {
+          // Play arpeggiated major chord for skin unlock milestones
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+          osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+          
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(0.18, now + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+          
+          osc.connect(gain);
+          gain.connect(this.masterGain);
+          
+          osc.start(now);
+          osc.stop(now + 0.6);
+        } catch (err) {
+          // safe bypass
+        }
+      }
+    }
+
+    // --- State and Variables ---
+    const audioSystem = new AudioSystem();
+    const poppedSet = new Set(); // Set of "col,row" coordinate keys
+    let isDragging = false;
+    let gridCols = 0;
+    let gridRows = 0;
+
+    // Database Authentication State
+    let isLoggedIn = false;
+    let isAdminUser = false;
+    let isStealthModeActive = false;
+    let isMindfulBreakActive = false;
+    let breathingTimeRemaining = 300;
+    let currentUserUid = null;
+    let currentDisplayName = "Guest Player";
+
+    // Statistics Profile Values
+    let totalPopped = 0;
+    let poppedToday = 0;
+    let longestStreak = 0;
+    let currentStreak = 0;
+    let sheetsRefilled = 0;
+    let lastActiveDate = "";
+
+    // Expanded unique features variables
+    let unlockedSkins = ['classic'];
+    let selectedSkin = 'classic';
+    let dailyStreak = 0;
+    let lastDailyCompletedDate = "";
+    let streakFreezes = 1;
+    let lastFreezeResetDate = "";
+    let dailySheetsCompleted = 0;
+
+    // Admin Dashboard state and variables
+    const adminWhitelist = ['admin@bubblewrap.com'];
+    let allUsersData = [];
+    let popSyncLogs = [];
+    let signupLogs = [];
+    let adminErrorCount = 0;
+    let adminCharts = {};
+    let isAuthResolving = true;
+
+    // Sizing helper maps for bubble cells
+    const skinsData = [
+      { id: 'classic', name: 'Classic', milestone: 0, desc: 'Original transparent wrap' },
+      { id: 'holographic', name: 'Holographic', milestone: 100, desc: 'Rainbow shimmer gradient' },
+      { id: 'glow', name: 'Neon Glow', milestone: 500, desc: 'Soft neon outer glow' },
+      { id: 'giant', name: 'Giant Bubbles', milestone: 1000, desc: 'Fewer, larger bubbles' },
+      { id: 'tiny', name: 'Tiny Bubbles', milestone: 5000, desc: 'Many micro bubbles' },
+      { id: 'cosmic', name: 'Cosmic Shard', milestone: 10000, desc: 'Dark space stardust' }
+    ];
+
+    // Core interactive page states
+    let isCurrentSheetDaily = false;
+    let goldenBubbleIndex = -1; // randomized cell index per sheet/refill
+
+    // Session combo stats
+    let poppedInSession = 0;
+    let activeStreak = 0; // combo pops
+    let lastPopTime = 0;
+    let popTimestamps = []; // for PPM
+
+    // Badge achievements triggers
+    const achievements = {
+      first: { id: 'badge-first', value: 1, unlocked: false },
+      streak: { id: 'badge-streak', value: 15, unlocked: false },
+      century: { id: 'badge-century', value: 100, unlocked: false },
+      zen: { id: 'badge-zen', value: 1000, unlocked: false }
+    };
+
+    // --- Dom Elements ---
+    const gridContainer = document.getElementById('grid-container');
+    const bubbleGrid = document.getElementById('bubble-grid');
+    const poppedCountEl = document.getElementById('popped-count');
+    const totalCountEl = document.getElementById('total-count');
+    const progressFillEl = document.getElementById('progress-bar-fill');
+    const refillBtn = document.getElementById('refill-btn');
+    const themeSelector = document.getElementById('theme-selector');
+    const soundPreset = document.getElementById('sound-preset');
+    const statsTriggerBtn = document.getElementById('stats-trigger-btn');
+    const statsDialog = document.getElementById('stats-dialog');
+    const closeStatsBtn = document.getElementById('close-stats-btn');
+
+    const streakValEl = document.getElementById('streak-val');
+    const ppmValEl = document.getElementById('ppm-val');
+    const statLifetimeEl = document.getElementById('stat-lifetime');
+    const statMaxStreakEl = document.getElementById('stat-max-streak');
+
+    // Stats Panel drawer
+    const statsPanel = document.getElementById('stats-panel');
+    const statsPanelToggleBtn = document.getElementById('stats-panel-toggle-btn');
+    const closeStatsPanelBtn = document.getElementById('close-stats-panel-btn');
+    const drawerUserLabel = document.getElementById('drawer-user-label');
+    const drawerTotalPopped = document.getElementById('drawer-total-popped');
+    const drawerPoppedToday = document.getElementById('drawer-popped-today');
+    const drawerDailyStreak = document.getElementById('drawer-daily-streak');
+    const drawerFreezesLeft = document.getElementById('drawer-freezes-left');
+    const drawerCurrentSkin = document.getElementById('drawer-current-skin');
+    const drawerSkinsUnlocked = document.getElementById('drawer-skins-unlocked');
+    const drawerSheetsRefilled = document.getElementById('drawer-sheets-refilled');
+    const drawerLastActive = document.getElementById('drawer-last-active');
+    const skinsGridContainer = document.getElementById('skins-grid-container');
+    const leaderboardBody = document.getElementById('leaderboard-body');
+
+    // Auth elements
+    const landingScreen = document.getElementById('landing-screen');
+    const tabBtnLogin = document.getElementById('tab-btn-login');
+    const tabBtnSignup = document.getElementById('tab-btn-signup');
+    const tabContentLogin = document.getElementById('tab-content-login');
+    const tabContentSignup = document.getElementById('tab-content-signup');
+    
+    const landingLoginForm = document.getElementById('landing-login-form');
+    const landingSignupForm = document.getElementById('landing-signup-form');
+    const landingLoginError = document.getElementById('landing-login-error');
+    const landingSignupError = document.getElementById('landing-signup-error');
+    const continueGuestBtn = document.getElementById('continue-guest-btn');
+    
+    const userProfileSection = document.getElementById('user-profile-section');
+
+    // Toast notifications
+    const unlockToast = document.getElementById('unlock-toast');
+    const unlockToastMsg = document.getElementById('unlock-toast-msg');
+
+    // --- Core Logic Functions ---
+
+    // Date Helper Functions
+    function getTodayStr() {
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getYesterdayStr() {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getDaysBetween(dateStr1, dateStr2) {
+      if (!dateStr1 || !dateStr2) return 999;
+      if (dateStr1 === dateStr2) return 0;
+      const d1 = new Date(dateStr1 + 'T00:00:00');
+      const d2 = new Date(dateStr2 + 'T00:00:00');
+      const diffTime = d2 - d1;
+      return Math.round(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    // Dynamic grid building
+    function resizeGrid() {
+      const width = gridContainer.clientWidth;
+      const height = gridContainer.clientHeight;
+
+      const isMobile = window.innerWidth <= 480;
+      const isTablet = window.innerWidth <= 900;
+      
+      // Calculate responsive target size based on selected skin
+      let bubbleTarget = 80;
+      if (selectedSkin === 'giant') {
+        bubbleTarget = isMobile ? 96 : (isTablet ? 112 : 132);
+      } else if (selectedSkin === 'tiny') {
+        bubbleTarget = isMobile ? 44 : 52;
+      } else {
+        if (isMobile) {
+          bubbleTarget = 62;
+        } else if (isTablet) {
+          bubbleTarget = 70;
+        }
+      }
+
+      const gap = 12;
+      const cols = Math.floor((width - gap) / bubbleTarget) || 1;
+      const rows = Math.floor((height - gap) / bubbleTarget) || 1;
+
+      // Update grid structure if dimensions change
+      if (cols !== gridCols || rows !== gridRows) {
+        gridCols = cols;
+        gridRows = rows;
+        
+        // Filter out-of-bounds popped coordinates
+        for (const key of poppedSet) {
+          const [c, r] = key.split(',').map(Number);
+          if (c >= cols || r >= rows) {
+            poppedSet.delete(key);
+          }
+        }
+        
+        // Compute internal custom property sizes for CSS variables
+        const bubbleSize = bubbleTarget - 12;
+        const weldSize = bubbleSize - 6;
+        const capSize = weldSize - 6;
+
+        bubbleGrid.style.setProperty('--bubble-size', `${bubbleSize}px`);
+        bubbleGrid.style.setProperty('--weld-size', `${weldSize}px`);
+        bubbleGrid.style.setProperty('--cap-size', `${capSize}px`);
+
+        renderGrid(cols, rows);
+      }
+    }
+
+    function renderGrid(cols, rows) {
+      bubbleGrid.style.setProperty('--cols', cols);
+      bubbleGrid.style.setProperty('--rows', rows);
+      bubbleGrid.innerHTML = '';
+
+      const total = cols * rows;
+
+      // 1. Establish Golden Bubble index
+      if (total > 0) {
+        goldenBubbleIndex = Math.floor(Math.random() * total);
+      } else {
+        goldenBubbleIndex = -1;
+      }
+
+      // 2. Establish Daily Sheet state
+      const todayStr = getTodayStr();
+      if (lastDailyCompletedDate !== todayStr) {
+        isCurrentSheetDaily = true;
+        bubbleGrid.classList.add('daily-sheet');
+        
+        // Add Daily Sheet badge above grid if not already present
+        if (!document.getElementById('daily-sheet-badge')) {
+          const badge = document.createElement('div');
+          badge.id = 'daily-sheet-badge';
+          badge.className = 'daily-sheet-badge';
+          badge.innerText = '☀️ Today\'s Daily Sheet';
+          gridContainer.appendChild(badge);
+        }
+      } else {
+        isCurrentSheetDaily = false;
+        bubbleGrid.classList.remove('daily-sheet');
+        document.getElementById('daily-sheet-badge')?.remove();
+      }
+
+      // 3. Generate individual bubble elements
+      let idx = 0;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          bubble.dataset.col = c;
+          bubble.dataset.row = r;
+          bubble.setAttribute('data-skin', selectedSkin);
+
+          const key = `${c},${r}`;
+          if (poppedSet.has(key)) {
+            bubble.classList.add('popped');
+          }
+
+          // Apply Golden Bubble shimmer indicators
+          if (idx === goldenBubbleIndex) {
+            bubble.classList.add('golden');
+          }
+
+          const weld = document.createElement('div');
+          weld.className = 'bubble-weld';
+
+          const cap = document.createElement('div');
+          cap.className = 'bubble-cap';
+
+          bubble.appendChild(weld);
+          bubble.appendChild(cap);
+          bubbleGrid.appendChild(bubble);
+
+          idx++;
+        }
+      }
+
+      updateCounters(total);
+    }
+
+    function updateCounters(total) {
+      const activePopped = poppedSet.size;
+      poppedCountEl.innerText = activePopped;
+      totalCountEl.innerText = total;
+
+      const percentage = total > 0 ? (activePopped / total) * 100 : 0;
+      progressFillEl.style.width = `${percentage}%`;
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+
+    function updatePpm() {
+      const now = Date.now();
+      popTimestamps = popTimestamps.filter(t => now - t < 10000);
+      const countInWindow = popTimestamps.length;
+      const ppm = Math.round((countInWindow / 10) * 60);
+      ppmValEl.innerText = ppm;
+    }
+
+    function refillSheet() {
+      sheetsRefilled++;
+      if (!isLoggedIn) {
+        localStorage.setItem('bubblewrap_sheets_refilled', sheetsRefilled);
+      } else {
+        triggerDatabaseSync();
+      }
+
+      poppedSet.clear();
+      const bubbles = Array.from(bubbleGrid.querySelectorAll('.bubble'));
+      audioSystem.playRefillCascade();
+
+      const centerX = gridCols / 2;
+      const centerY = gridRows / 2;
+      const total = gridCols * gridRows;
+
+      if (total > 0) {
+        goldenBubbleIndex = Math.floor(Math.random() * total);
+      } else {
+        goldenBubbleIndex = -1;
+      }
+
+      bubbles.forEach((b, index) => {
+        const col = parseInt(b.dataset.col);
+        const row = parseInt(b.dataset.row);
+        const dx = col - centerX;
+        const dy = row - centerY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+
+        b.classList.remove('popped');
+        b.classList.remove('golden');
+        b.classList.add('reinflating');
+        b.style.animationDelay = `${dist * 50}ms`;
+
+        if (index === goldenBubbleIndex) {
+          b.classList.add('golden');
+        }
+
+        setTimeout(() => {
+          b.classList.remove('reinflating');
+          b.style.animationDelay = '';
+        }, 800 + dist * 50);
+      });
+
+      updateCounters(total);
+      updateStatsPanelUI();
+    }
+
+    function checkAchievements() {
+      if (totalPopped >= 1 && !achievements.first.unlocked) {
+        achievements.first.unlocked = true;
+        unlockBadge('badge-first');
+      }
+      if (activeStreak >= 15 && !achievements.streak.unlocked) {
+        achievements.streak.unlocked = true;
+        unlockBadge('badge-streak');
+      }
+      if (poppedInSession >= 100 && !achievements.century.unlocked) {
+        achievements.century.unlocked = true;
+        unlockBadge('badge-century');
+      }
+      if (totalPopped >= 1000 && !achievements.zen.unlocked) {
+        achievements.zen.unlocked = true;
+        unlockBadge('badge-zen');
+      }
+
+      const maxStreak = parseInt(localStorage.getItem('bubblewrap_max_streak') || '0');
+      const sessionMax = Math.max(maxStreak, activeStreak);
+      localStorage.setItem('bubblewrap_max_streak', sessionMax);
+
+      statLifetimeEl.innerText = totalPopped.toLocaleString();
+      statMaxStreakEl.innerText = sessionMax.toLocaleString();
+    }
+
+    function unlockBadge(badgeId) {
+      const el = document.getElementById(badgeId);
+      if (el) {
+        el.classList.remove('locked');
+        el.classList.add('unlocked');
+      }
+    }
+
+    // Initialize statistics and merge guest progress
+    function loadUserStats(serverStats = null) {
+      const todayStr = getTodayStr();
+
+      if (isLoggedIn) {
+        // Logged in user: load from server, or initialize to zero if new account
+        const sessionPops = poppedInSession;
+        poppedInSession = 0; // reset session count to prevent double-merging
+
+        if (serverStats) {
+          totalPopped = (serverStats.totalPopped || 0) + sessionPops;
+          sheetsRefilled = serverStats.sheetsRefilled || 0;
+          dailySheetsCompleted = serverStats.dailySheetsCompleted || 0;
+          unlockedSkins = serverStats.unlockedSkins || ['classic'];
+          selectedSkin = serverStats.selectedSkin || 'classic';
+          lastFreezeResetDate = serverStats.lastFreezeResetDate || todayStr;
+          streakFreezes = serverStats.streakFreezes !== undefined ? serverStats.streakFreezes : 1;
+          
+          lastDailyCompletedDate = serverStats.lastDailyCompletedDate || "";
+          const diff = getDaysBetween(lastDailyCompletedDate, todayStr);
+          
+          if (diff === 0) {
+            poppedToday = (serverStats.poppedToday || 0) + sessionPops;
+            dailyStreak = serverStats.dailyStreak || 0;
+          } else if (diff === 1) {
+            poppedToday = sessionPops; 
+            dailyStreak = serverStats.dailyStreak || 0;
+          } else if (diff === 2 && lastDailyCompletedDate && streakFreezes > 0) {
+            streakFreezes--;
+            lastDailyCompletedDate = getYesterdayStr();
+            showCustomToast("❄️ Streak Freeze consumed! Daily streak preserved.");
+            poppedToday = sessionPops;
+            dailyStreak = serverStats.dailyStreak || 0;
+          } else {
+            dailyStreak = 0;
+            poppedToday = sessionPops;
+          }
+        } else {
+          // New authenticated user: initialize stats at zero!
+          totalPopped = sessionPops;
+          sheetsRefilled = 0;
+          dailySheetsCompleted = 0;
+          unlockedSkins = ['classic'];
+          selectedSkin = 'classic';
+          lastFreezeResetDate = todayStr;
+          streakFreezes = 1;
+          lastDailyCompletedDate = "";
+          dailyStreak = 0;
+          poppedToday = sessionPops;
+        }
+
+        document.body.setAttribute('data-skin', selectedSkin);
+        checkWeeklyFreezeReset();
+        triggerDatabaseSync();
+      } else {
+        // Guest mode: load values from local storage
+        totalPopped = parseInt(localStorage.getItem('bubblewrap_lifetime_pops') || '0');
+        sheetsRefilled = parseInt(localStorage.getItem('bubblewrap_sheets_refilled') || '0');
+        dailySheetsCompleted = parseInt(localStorage.getItem('bubblewrap_daily_sheets_completed') || '0');
+        
+        // Skins guest profiles
+        try {
+          unlockedSkins = JSON.parse(localStorage.getItem('bubblewrap_unlocked_skins') || '["classic"]');
+        } catch(e) {
+          unlockedSkins = ['classic'];
+        }
+        selectedSkin = localStorage.getItem('bubblewrap_selected_skin') || 'classic';
+        document.body.setAttribute('data-skin', selectedSkin);
+
+        lastFreezeResetDate = localStorage.getItem('bubblewrap_last_freeze_reset') || todayStr;
+        streakFreezes = localStorage.getItem('bubblewrap_streak_freezes') !== null ? parseInt(localStorage.getItem('bubblewrap_streak_freezes')) : 1;
+        checkWeeklyFreezeReset();
+
+        lastDailyCompletedDate = localStorage.getItem('bubblewrap_last_daily_completed') || "";
+        dailyStreak = parseInt(localStorage.getItem('bubblewrap_daily_streak') || '0');
+        poppedToday = parseInt(localStorage.getItem('bubblewrap_popped_today') || '0');
+        
+        const diff = getDaysBetween(lastDailyCompletedDate, todayStr);
+        if (diff > 0) {
+          poppedToday = 0;
+          if (diff > 1) {
+            if (lastDailyCompletedDate && streakFreezes > 0) {
+              streakFreezes--;
+              lastDailyCompletedDate = getYesterdayStr();
+              localStorage.setItem('bubblewrap_streak_freezes', streakFreezes);
+              localStorage.setItem('bubblewrap_last_daily_completed', lastDailyCompletedDate);
+              showCustomToast("❄️ Streak Freeze consumed! Daily streak preserved.");
+            } else {
+              dailyStreak = 0;
+              localStorage.setItem('bubblewrap_daily_streak', 0);
+            }
+          }
+        }
+      }
+      
+      checkAchievements();
+      updateStatsPanelUI();
+    }
+
+    // Weekly Freeze resets
+    function checkWeeklyFreezeReset() {
+      const todayStr = getTodayStr();
+      if (!lastFreezeResetDate) {
+        lastFreezeResetDate = todayStr;
+        streakFreezes = 1;
+        saveFreezeResetState();
+      } else {
+        const diff = getDaysBetween(lastFreezeResetDate, todayStr);
+        if (diff >= 7) {
+          streakFreezes = 1;
+          lastFreezeResetDate = todayStr;
+          saveFreezeResetState();
+          showCustomToast("❄️ Streak Freeze replenished!");
+        }
+      }
+    }
+
+    function saveFreezeResetState() {
+      if (!isLoggedIn) {
+        localStorage.setItem('bubblewrap_streak_freezes', streakFreezes);
+        localStorage.setItem('bubblewrap_last_freeze_reset', lastFreezeResetDate);
+      }
+    }
+
+    // Popping Logic
+    function popBubble(bubble) {
+      if (bubble.classList.contains('popped') || bubble.classList.contains('reinflating')) return;
+
+      const col = parseInt(bubble.dataset.col);
+      const row = parseInt(bubble.dataset.row);
+      const key = `${col},${row}`;
+      const isGolden = bubble.classList.contains('golden');
+
+      bubble.classList.add('popped');
+      poppedSet.add(key);
+
+      // Web Audio pop (higher pitched if golden)
+      audioSystem.playPop(isGolden);
+
+      // Mobile haptic vibration if supported
+      if (navigator.vibrate) {
+        try {
+          navigator.vibrate(12);
+        } catch (e) {
+          // safe bypass
+        }
+      }
+
+      // Stats management
+      const now = Date.now();
+      
+      poppedInSession++;
+      
+      // Golden bubbles count as 5 pops towards stats
+      const popCountIncrement = isGolden ? 5 : 1;
+      totalPopped += popCountIncrement;
+      poppedToday += popCountIncrement;
+
+      // LocalStorage backup fallback for guests
+      if (!isLoggedIn) {
+        localStorage.setItem('bubblewrap_lifetime_pops', totalPopped);
+        localStorage.setItem('bubblewrap_popped_today', poppedToday);
+      }
+
+      // Combo streak check
+      if (now - lastPopTime <= 2000) {
+        activeStreak++;
+      } else {
+        activeStreak = 1;
+      }
+      lastPopTime = now;
+      streakValEl.innerText = activeStreak;
+
+      // Track timestamps for PPM sliding window
+      popTimestamps.push(now);
+
+      // Golden or standard particle sparks
+      if (isGolden) {
+        createGoldenParticles(bubble);
+      } else {
+        createParticles(bubble);
+      }
+
+      // Refresh UI counts
+      updateCounters(gridCols * gridRows);
+      
+      // Check milestones/unlocks & completion triggers
+      checkSkinMilestones();
+      checkAchievements();
+      checkSheetCompletion();
+      updateStatsPanelUI();
+
+      // Trigger debounced server sync if logged in
+      if (isLoggedIn) {
+        scheduleStatsSync();
+      }
+    }
+
+    // Debounced database sync for statistics
+    let statsSyncTimeout = null;
+    function scheduleStatsSync() {
+      clearTimeout(statsSyncTimeout);
+      statsSyncTimeout = setTimeout(triggerDatabaseSync, 2500); // 2.5s inactivity debounce
+    }
+
+    async function triggerDatabaseSync() {
+      if (!isLoggedIn || !currentUserUid) return;
+
+      if (statsSyncTimeout) {
+        clearTimeout(statsSyncTimeout);
+        statsSyncTimeout = null;
+      }
+
+      const payload = {
+        totalPopped,
+        poppedToday,
+        longestStreak,
+        currentStreak,
+        sheetsRefilled,
+        lastActiveDate,
+        unlockedSkins,
+        selectedSkin,
+        dailyStreak,
+        lastDailyCompletedDate,
+        streakFreezes,
+        lastFreezeResetDate,
+        dailySheetsCompleted,
+        displayName: currentDisplayName,
+        updatedAt: new Date().toISOString()
+      };
+
+      if (fbApp) {
+        try {
+          const userDocRef = doc(fbStore, "users_stats", currentUserUid);
+          await setDoc(userDocRef, payload, { merge: true });
+          console.log("Firestore synced:", payload);
+          addPopSyncLog(currentUserUid, totalPopped);
+        } catch (e) {
+          console.error("Firestore database sync failed:", e);
+          addSyncErrorLog(currentUserUid, e.message);
+          if (!statsSyncTimeout) {
+            statsSyncTimeout = setTimeout(triggerDatabaseSync, 6000);
+          }
+        }
+      } else {
+        // Simulation sync
+        try {
+          await localDbSimulation.setStatsDoc(currentUserUid, payload);
+          console.log("Local Database Simulation synced:", payload);
+          addPopSyncLog(currentUserUid, totalPopped);
+        } catch (e) {
+          addSyncErrorLog(currentUserUid, e.message);
+          if (!statsSyncTimeout) {
+            statsSyncTimeout = setTimeout(triggerDatabaseSync, 6000);
+          }
+        }
+      }
+      
+      loadLeaderboard();
+    }
+
+    // Milestones check for Skin Unlocks
+    function checkSkinMilestones() {
+      const milestones = [
+        { id: 'holographic', name: 'Holographic', target: 100 },
+        { id: 'glow', name: 'Neon Glow', target: 500 },
+        { id: 'giant', name: 'Giant Bubbles', target: 1000 },
+        { id: 'tiny', name: 'Tiny Bubbles', target: 5000 },
+        { id: 'cosmic', name: 'Cosmic Shard', target: 10000 }
+      ];
+
+      milestones.forEach(m => {
+        if (totalPopped >= m.target && !unlockedSkins.includes(m.id)) {
+          unlockedSkins.push(m.id);
+          showUnlockToast(m.name);
+          audioSystem.playUnlockChime();
+          
+          if (!isLoggedIn) {
+            localStorage.setItem('bubblewrap_unlocked_skins', JSON.stringify(unlockedSkins));
+          } else {
+            triggerDatabaseSync();
+          }
+          
+          renderSkinsMenu();
+        }
+      });
+    }
+
+    function showUnlockToast(skinName) {
+      unlockToastMsg.innerText = `New skin unlocked: ${skinName}! ✨`;
+      unlockToast.classList.add('show');
+      setTimeout(() => {
+        unlockToast.classList.remove('show');
+      }, 3200);
+    }
+
+    function showCustomToast(msg) {
+      unlockToastMsg.innerText = msg;
+      unlockToast.classList.add('show');
+      setTimeout(() => {
+        unlockToast.classList.remove('show');
+      }, 3200);
+    }
+
+    // Select and apply a bubble skin
+    function selectSkin(skinId) {
+      if (!unlockedSkins.includes(skinId)) return;
+      selectedSkin = skinId;
+      document.body.setAttribute('data-skin', selectedSkin);
+
+      if (!isLoggedIn) {
+        localStorage.setItem('bubblewrap_selected_skin', selectedSkin);
+      } else {
+        triggerDatabaseSync();
+      }
+
+      // Redraw list selections
+      renderSkinsMenu();
+      
+      // Force grid sizing recalculations (since giant/tiny resize layouts)
+      gridCols = 0; 
+      gridRows = 0;
+      resizeGrid();
+    }
+
+    // Check if entire sheet has been popped
+    function checkSheetCompletion() {
+      const bubbles = Array.from(bubbleGrid.querySelectorAll('.bubble'));
+      if (bubbles.length === 0) return;
+
+      const allPopped = bubbles.every(b => b.classList.contains('popped'));
+      if (allPopped) {
+        const todayStr = getTodayStr();
+
+        if (isCurrentSheetDaily) {
+          completeDailySheet(todayStr);
+        }
+      }
+    }
+
+    // Completed Daily Morning Sheet
+    function completeDailySheet(todayStr) {
+      isCurrentSheetDaily = false;
+      bubbleGrid.classList.remove('daily-sheet');
+      document.getElementById('daily-sheet-badge')?.remove();
+
+      dailySheetsCompleted++;
+      
+      // Streak arithmetic: check if consecutive to last completion
+      const diff = getDaysBetween(lastDailyCompletedDate, todayStr);
+      if (diff === 1 || lastDailyCompletedDate === "") {
+        dailyStreak++;
+      } else if (diff > 1) {
+        // preserved streak freeze or reset on load, so we just increment today's pop
+        dailyStreak++;
+      }
+
+      lastDailyCompletedDate = todayStr;
+
+      if (!isLoggedIn) {
+        localStorage.setItem('bubblewrap_daily_sheets_completed', dailySheetsCompleted);
+        localStorage.setItem('bubblewrap_daily_streak', dailyStreak);
+        localStorage.setItem('bubblewrap_last_daily_completed', lastDailyCompletedDate);
+      } else {
+        triggerDatabaseSync();
+      }
+
+      // Staggered confetti explosion fireworks
+      triggerConfettiShow();
+      updateStatsPanelUI();
+    }
+
+    function triggerConfettiShow() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      // Stagger 6 beautiful burst explosions
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+          const rx = 100 + Math.random() * (width - 200);
+          const ry = 100 + Math.random() * (height - 200);
+          createConfettiExplosion(rx, ry);
+          audioSystem.playPop(true); // high-pitched pop chime
+        }, i * 200);
+      }
+    }
+
+    function createConfettiExplosion(x, y) {
+      const count = 16 + Math.floor(Math.random() * 10);
+      const container = document.body;
+
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        
+        const size = 4 + Math.random() * 8;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${x - size/2}px`;
+        p.style.top = `${y - size/2}px`;
+
+        // Rainbow confetti color palettes
+        const colors = ['#f59e0b', '#ec4899', '#10b981', '#3b82f6', '#8b5cf6', '#ffd700'];
+        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        p.style.opacity = '0.85';
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 25 + Math.random() * 55;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        p.style.setProperty('--tx', `${tx}px`);
+        p.style.setProperty('--ty', `${ty}px`);
+        p.style.setProperty('--rot', `${Math.random() * 360}deg`);
+
+        container.appendChild(p);
+
+        setTimeout(() => p.remove(), 450);
+      }
+    }
+
+    // PPM calculations (sliding 10-second window)
+    function updatePpmTimer() {
+      updatePpm();
+    }
+
+    // Refill sheet staggered ripple waves
+    function refillSheetAction() {
+      if (isAdminUser || isStealthModeActive || isMindfulBreakActive) return;
+      refillSheet();
+    }
+
+    // --- Corporate Wellness Functions ---
+    
+    function toggleStealthMode() {
+      isStealthModeActive = !isStealthModeActive;
+      const overlay = document.getElementById('stealth-overlay');
+      if (overlay) {
+        if (isStealthModeActive) {
+          overlay.classList.remove('hidden');
+          if (audioSystem.masterGain) {
+            audioSystem.masterGain.gain.setValueAtTime(0, audioSystem.ctx?.currentTime || 0);
+          }
+        } else {
+          overlay.classList.add('hidden');
+          const soundVal = document.getElementById('sound-preset').value;
+          if (soundVal !== 'muted' && audioSystem.masterGain) {
+            audioSystem.masterGain.gain.setValueAtTime(0.55, audioSystem.ctx?.currentTime || 0);
+          }
+        }
+      }
+    }
+
+    let breathingPhase = 0; // 0: Inhale, 1: Hold, 2: Exhale, 3: Hold
+    let breathingInterval = null;
+    let breakTimer = null;
+    
+    function startBreathingBreak() {
+      const circle = document.getElementById('breathing-circle');
+      const label = document.getElementById('breathing-label');
+      const instr = document.getElementById('breathing-instruction');
+      const startBtn = document.getElementById('breathing-start-btn');
+      
+      if (breathingInterval) {
+        // Pause session
+        clearInterval(breathingInterval);
+        clearInterval(breakTimer);
+        breathingInterval = null;
+        breakTimer = null;
+        startBtn.innerText = "Resume Breathing Session";
+        instr.innerText = "Session paused.";
+        circle.style.transform = 'scale(1)';
+        circle.className = 'breathing-circle';
+        return;
+      }
+      
+      startBtn.innerText = "Pause Session";
+      breathingTimeRemaining = 300; // 5 mins
+      document.getElementById('mindful-progress-fill').style.width = '0%';
+      
+      // Update timer
+      breakTimer = setInterval(() => {
+        if (breathingTimeRemaining <= 0) {
+          endBreathingBreak();
+          return;
+        }
+        breathingTimeRemaining--;
+        const mins = Math.floor(breathingTimeRemaining / 60);
+        const secs = breathingTimeRemaining % 60;
+        document.getElementById('mindful-time-val').innerText = `${mins}:${secs.toString().padStart(2, '0')}`;
+        
+        // Progress fill
+        const pct = ((300 - breathingTimeRemaining) / 300) * 100;
+        document.getElementById('mindful-progress-fill').style.width = `${pct}%`;
+      }, 1000);
+      
+      // Box Breathing Cycle (every 4 seconds)
+      breathingPhase = 0;
+      runBreathingPhase(circle, label, instr);
+      
+      breathingInterval = setInterval(() => {
+        breathingPhase = (breathingPhase + 1) % 4;
+        runBreathingPhase(circle, label, instr);
+      }, 4000);
+    }
+    
+    function runBreathingPhase(circle, label, instr) {
+      circle.className = 'breathing-circle';
+      if (breathingPhase === 0) {
+        circle.classList.add('inhale');
+        circle.style.transform = 'scale(2.0)';
+        label.innerText = "💨 Inhale";
+        instr.innerText = "Breathe in slowly, filling your lungs...";
+      } else if (breathingPhase === 1) {
+        circle.style.transform = 'scale(2.0)';
+        label.innerText = "🛑 Hold";
+        instr.innerText = "Hold your breath, staying relaxed...";
+      } else if (breathingPhase === 2) {
+        circle.classList.add('exhale');
+        circle.style.transform = 'scale(1.0)';
+        label.innerText = "💨 Exhale";
+        instr.innerText = "Exhale gently, releasing all tension...";
+      } else if (breathingPhase === 3) {
+        circle.style.transform = 'scale(1.0)';
+        label.innerText = "🛑 Hold";
+        instr.innerText = "Hold empty, calming your mind...";
+      }
+    }
+    
+    function endBreathingBreak() {
+      clearInterval(breathingInterval);
+      clearInterval(breakTimer);
+      breathingInterval = null;
+      breakTimer = null;
+      document.getElementById('mindful-break-overlay').classList.add('hidden');
+      isMindfulBreakActive = false;
+      showCustomToast("🧘 Session complete! Relaxed and ready to work.");
+    }
+
+    // Golden bubble particle explosion
+    function createGoldenParticles(bubble) {
+      const rect = bubble.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const count = 15 + Math.floor(Math.random() * 6);
+      const container = document.body;
+
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        
+        const size = 4 + Math.random() * 7;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${centerX - size/2}px`;
+        p.style.top = `${centerY - size/2}px`;
+        
+        const goldColors = ['#ffd700', '#fbbf24', '#f59e0b', '#fffbeb'];
+        p.style.backgroundColor = goldColors[Math.floor(Math.random() * goldColors.length)];
+        p.style.boxShadow = '0 0 6px rgba(251, 191, 36, 0.7)';
+        p.style.opacity = '0.9';
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 20 + Math.random() * 45;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        p.style.setProperty('--tx', `${tx}px`);
+        p.style.setProperty('--ty', `${ty}px`);
+        p.style.setProperty('--rot', `${Math.random() * 360}deg`);
+
+        container.appendChild(p);
+
+        setTimeout(() => {
+          p.remove();
+        }, 450);
+      }
+    }
+
+    // Standard bubble particle burst
+    function createParticles(bubble) {
+      const rect = bubble.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const count = 5 + Math.floor(Math.random() * 5); 
+      const container = document.body;
+
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        
+        const size = 3 + Math.random() * 7;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${centerX - size/2}px`;
+        p.style.top = `${centerY - size/2}px`;
+        p.style.backgroundColor = 'var(--accent-color)';
+        p.style.opacity = '0.7';
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 16 + Math.random() * 32;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        p.style.setProperty('--tx', `${tx}px`);
+        p.style.setProperty('--ty', `${ty}px`);
+        p.style.setProperty('--rot', `${Math.random() * 360}deg`);
+
+        container.appendChild(p);
+
+        setTimeout(() => {
+          p.remove();
+        }, 450);
+      }
+    }
+
+    // Cross-platform pointer drags
+    function checkPointerInteract(e) {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (!el) return;
+
+      const bubble = el.closest('.bubble');
+      if (bubble) {
+        popBubble(bubble);
+      }
+    }
+
+    // Updates stats inside drawer
+    function updateStatsPanelUI() {
+      drawerUserLabel.innerText = isLoggedIn ? `${currentDisplayName}'s Stats` : "Guest Stats";
+      drawerTotalPopped.innerText = totalPopped.toLocaleString();
+      drawerPoppedToday.innerText = poppedToday.toLocaleString();
+      
+      drawerDailyStreak.innerText = `${dailyStreak} day${dailyStreak !== 1 ? 's' : ''}`;
+      drawerFreezesLeft.innerText = streakFreezes;
+      drawerCurrentSkin.innerText = selectedSkin.toUpperCase();
+      drawerSkinsUnlocked.innerText = `${unlockedSkins.length} / 6`;
+      
+      drawerSheetsRefilled.innerText = sheetsRefilled.toLocaleString();
+      drawerLastActive.innerText = lastActiveDate || 'Never';
+    }
+
+    // Render unlockable Skins Menu inside drawer
+    function renderSkinsMenu() {
+      skinsGridContainer.innerHTML = '';
+      
+      skinsData.forEach(skin => {
+        const isUnlocked = unlockedSkins.includes(skin.id);
+        const isSelected = selectedSkin === skin.id;
+
+        const card = document.createElement('div');
+        card.className = `skin-card ${isUnlocked ? '' : 'locked'} ${isSelected ? 'selected' : ''}`;
+        
+        // Small preview circle bubble cap
+        const preview = document.createElement('div');
+        preview.className = 'skin-preview';
+        preview.setAttribute('data-skin', skin.id);
+        const cap = document.createElement('div');
+        cap.className = 'bubble-cap';
+        preview.appendChild(cap);
+
+        const name = document.createElement('div');
+        name.className = 'skin-name';
+        name.innerText = skin.name;
+
+        const label = document.createElement('div');
+        label.className = 'skin-label';
+        if (isUnlocked) {
+          label.innerText = isSelected ? 'Selected' : 'Select';
+          label.style.color = isSelected ? 'var(--accent-color)' : 'var(--text-muted)';
+        } else {
+          label.innerText = `🔒 ${skin.milestone.toLocaleString()} pops`;
+        }
+
+        card.appendChild(preview);
+        card.appendChild(name);
+        card.appendChild(label);
+
+        if (isUnlocked) {
+          card.addEventListener('click', () => selectSkin(skin.id));
+        }
+
+        skinsGridContainer.appendChild(card);
+      });
+    }
+
+    async function loadLeaderboard() {
+      leaderboardBody.innerHTML = '<li>Loading top poppers...</li>';
+      let list = [];
+
+      if (fbApp) {
+        try {
+          const statsCol = collection(fbStore, "users_stats");
+          const q = query(statsCol, orderBy("totalPopped", "desc"), limit(5));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach(doc => {
+            const data = doc.data();
+            list.push({ displayName: data.displayName || 'Anonymous', totalPopped: data.totalPopped || 0 });
+          });
+        } catch (e) {
+          console.warn("Firestore leaderboard load failed, utilizing simulated fallback:", e);
+          list = await localDbSimulation.getLeaderboard();
+        }
+      } else {
+        list = await localDbSimulation.getLeaderboard();
+      }
+
+      leaderboardBody.innerHTML = '';
+      if (list.length === 0) {
+        leaderboardBody.innerHTML = '<li>No poppers registered.</li>';
+        return;
+      }
+
+      list.forEach((item, index) => {
+        const li = document.createElement('li');
+        const rank = index + 1;
+        li.innerHTML = `
+          <span class="rank">#${rank}</span>
+          <span class="name">${escapeHTML(item.displayName)}</span>
+          <span class="score">${item.totalPopped.toLocaleString()}</span>
+        `;
+        leaderboardBody.appendChild(li);
+      });
+    }
+
+    // --- Authentication Flow Logic ---
+
+    // Update the profile section in the header based on login state
+    function updateProfileUI() {
+      if (isLoggedIn) {
+        userProfileSection.innerHTML = `
+          <span class="user-name" title="${currentDisplayName}">Hi, ${currentDisplayName}!</span>
+          <button class="btn-logout" id="logout-btn" title="Sign Out" aria-label="Sign Out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          </button>
+        `;
+        document.getElementById('logout-btn').addEventListener('click', performLogout);
+      } else {
+        userProfileSection.innerHTML = `
+          <button class="btn-auth-trigger" id="auth-trigger-btn" aria-label="Sign In">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Sign In
+          </button>
+        `;
+        document.getElementById('auth-trigger-btn').addEventListener('click', () => {
+          audioSystem.init();
+          showAuthLandingCard();
+        });
+      }
+    }
+
+    // Landing card toggles
+    function showAuthLandingCard() {
+      landingScreen.classList.remove('hidden');
+      switchAuthTab('login');
+    }
+
+    function switchAuthTab(tab) {
+      landingLoginError.style.display = 'none';
+      landingSignupError.style.display = 'none';
+      
+      landingLoginForm.reset();
+      landingSignupForm.reset();
+
+      if (tab === 'login') {
+        tabBtnLogin.classList.add('active');
+        tabBtnSignup.classList.remove('active');
+        tabContentLogin.classList.remove('hidden');
+        tabContentSignup.classList.add('hidden');
+      } else {
+        tabBtnSignup.classList.add('active');
+        tabBtnLogin.classList.remove('active');
+        tabContentSignup.classList.remove('hidden');
+        tabContentLogin.classList.add('hidden');
+      }
+    }
+
+    // Handles user session hooks
+    function handleSessionChange(user) {
+      isAuthResolving = false;
+      
+      if (user) {
+        isLoggedIn = true;
+        currentUserUid = user.uid;
+        currentDisplayName = user.displayName || user.email.split('@')[0];
+        isAdminUser = user.email && adminWhitelist.includes(user.email.toLowerCase());
+        
+        landingScreen.classList.add('hidden');
+        updateProfileUI();
+
+        // Fetch user stats document
+        fetchUserDataAndLoad(user.uid);
+      } else {
+        isLoggedIn = false;
+        currentUserUid = null;
+        currentDisplayName = "Guest Player";
+        isAdminUser = false;
+        updateProfileUI();
+        
+        loadUserStats(null);
+      }
+
+      // Sync blocker display
+      const blocker = document.getElementById('admin-play-blocker');
+      if (blocker) {
+        if (isLoggedIn && isAdminUser && window.location.pathname !== '/admin') {
+          blocker.classList.remove('hidden');
+        } else {
+          blocker.classList.add('hidden');
+        }
+      }
+
+      // If on admin route, re-run auth checks to update views
+      if (window.location.pathname === '/admin') {
+        checkAdminAuth();
+      }
+    }
+
+    async function fetchUserDataAndLoad(uid) {
+      if (fbApp) {
+        try {
+          const docRef = doc(fbStore, "users_stats", uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            loadUserStats(docSnap.data());
+          } else {
+            loadUserStats(null);
+          }
+        } catch (e) {
+          console.error("Firestore stats fetch failed:", e);
+          loadUserStats(null);
+        }
+      } else {
+        // Simulation fetch
+        const res = await localDbSimulation.getStatsDoc(uid);
+        if (res.exists()) {
+          loadUserStats(res.data());
+        } else {
+          loadUserStats(null);
+        }
+      }
+    }
+
+    async function performLogout() {
+      if (fbApp) {
+        try {
+          await signOut(fbAuth);
+        } catch (e) {
+          console.error("Firebase Signout error:", e);
+        }
+      } else {
+        await localDbSimulation.signOut();
+      }
+      
+      poppedInSession = 0; // reset active pops
+      activeStreak = 0;
+      streakValEl.innerText = 0;
+      
+      // Force skins state reset to classic
+      selectedSkin = 'classic';
+      unlockedSkins = ['classic'];
+      document.body.setAttribute('data-skin', 'classic');
+
+      // Force redraw grid for sizing bounds
+      gridCols = 0;
+      gridRows = 0;
+      resizeGrid();
+
+      console.log("Session terminated.");
+
+      // Redirect admin out to base URL if they logout inside admin console
+      if (window.location.pathname === '/admin') {
+        window.history.pushState({}, '', '/');
+        exitAdminMode();
+      }
+
+      // Open the login screen dialog on logout
+      showAuthLandingCard();
+    }
+
+    // --- Authentication Submit Actions ---
+    
+    // Login Submit
+    landingLoginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      landingLoginError.style.display = 'none';
+
+      const email = document.getElementById('landing-login-email').value.trim();
+      const password = document.getElementById('landing-login-password').value;
+
+      try {
+        if (fbApp) {
+          await signInWithEmailAndPassword(fbAuth, email, password);
+        } else {
+          await localDbSimulation.signInWithEmailAndPassword(email, password);
+        }
+      } catch (err) {
+        console.warn("Auth failure:", err.code || err.message);
+        let msg = "Invalid email or password.";
+        if (err.message.includes("auth/invalid-email")) {
+          msg = "Please enter a valid email address.";
+        } else if (err.message.includes("auth/invalid-credential")) {
+          msg = "Incorrect credentials. Please try again.";
+        }
+        landingLoginError.innerText = msg;
+        landingLoginError.style.display = 'block';
+      }
+    });
+
+    // Registration (Signup) Submit
+    landingSignupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      landingSignupError.style.display = 'none';
+
+      const name = document.getElementById('landing-signup-name').value.trim();
+      const email = document.getElementById('landing-signup-email').value.trim();
+      const password = document.getElementById('landing-signup-password').value;
+      const confirm = document.getElementById('landing-signup-confirm').value;
+
+      // Form validation rules
+      if (name.length < 2) {
+        landingSignupError.innerText = "Display name must be at least 2 characters.";
+        landingSignupError.style.display = 'block';
+        return;
+      }
+      if (!email.includes('@')) {
+        landingSignupError.innerText = "Please provide a valid email format.";
+        landingSignupError.style.display = 'block';
+        return;
+      }
+      if (password.length < 6) {
+        landingSignupError.innerText = "Password must be at least 6 characters.";
+        landingSignupError.style.display = 'block';
+        return;
+      }
+      if (password !== confirm) {
+        landingSignupError.innerText = "Passwords do not match.";
+        landingSignupError.style.display = 'block';
+        return;
+      }
+
+      try {
+        if (fbApp) {
+          const credentials = await createUserWithEmailAndPassword(fbAuth, email, password);
+          await updateProfile(credentials.user, { displayName: name });
+          addSignupLog(name, email);
+          handleSessionChange(credentials.user);
+        } else {
+          await localDbSimulation.createUserWithEmailAndPassword(email, password, name);
+          addSignupLog(name, email);
+        }
+      } catch (err) {
+        console.warn("Registration error:", err.code || err.message);
+        let msg = "Account creation failed.";
+        if (err.message.includes("auth/email-already-in-use")) {
+          msg = "Email address is already in use by another account.";
+        } else if (err.message.includes("auth/invalid-email")) {
+          msg = "The email address is badly formatted.";
+        }
+        landingSignupError.innerText = msg;
+        landingSignupError.style.display = 'block';
+      }
+    });
+
+    // Guest skip triggers
+    continueGuestBtn.addEventListener('click', () => {
+      audioSystem.init();
+      landingScreen.classList.add('hidden');
+      isLoggedIn = false;
+      currentUserUid = null;
+      currentDisplayName = "Guest Player";
+      updateProfileUI();
+      loadUserStats(null);
+    });
+
+    // --- Interactive Action Listeners ---
+
+    // Drag to pop pointer actions
+    window.addEventListener('pointerdown', (e) => {
+      if (isAdminUser || isStealthModeActive || isMindfulBreakActive) return;
+      audioSystem.init();
+
+      // Guard checks to prevent popping when clicking inside interactive elements
+      if (e.target.closest('header') || e.target.closest('dialog') || e.target.closest('.bottom-bar') || e.target.closest('#stats-panel') || e.target.closest('.landing-card')) {
+        return;
+      }
+
+      isDragging = true;
+      checkPointerInteract(e);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (isAdminUser || isStealthModeActive || isMindfulBreakActive || !isDragging) return;
+      checkPointerInteract(e);
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDragging = false;
+    });
+
+    window.addEventListener('pointercancel', () => {
+      isDragging = false;
+    });
+
+    // Control triggers
+    refillBtn.addEventListener('click', refillSheetAction);
+
+    themeSelector.addEventListener('change', (e) => {
+      document.body.setAttribute('data-theme', e.target.value);
+    });
+
+    soundPreset.addEventListener('change', (e) => {
+      audioSystem.preset = e.target.value;
+      audioSystem.init();
+    });
+
+    // Stats drawer open/close
+    statsPanelToggleBtn.addEventListener('click', () => {
+      audioSystem.init();
+      renderSkinsMenu();
+      loadLeaderboard();
+      statsPanel.classList.add('open');
+    });
+
+    closeStatsPanelBtn.addEventListener('click', () => {
+      statsPanel.classList.remove('open');
+    });
+
+    // Close drawer on container-click outside
+    window.addEventListener('pointerdown', (e) => {
+      if (!statsPanel.contains(e.target) && !statsPanelToggleBtn.contains(e.target)) {
+        statsPanel.classList.remove('open');
+      }
+    });
+
+    // Achievements Dialog operations
+    statsTriggerBtn.addEventListener('click', () => {
+      audioSystem.init();
+      checkAchievements();
+      statsDialog.showModal();
+    });
+
+    closeStatsBtn.addEventListener('click', () => {
+      statsDialog.close();
+    });
+
+    // Close achievements dialog clicking backdrop
+    statsDialog.addEventListener('click', (e) => {
+      const rect = statsDialog.getBoundingClientRect();
+      const inDialog = (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+      if (!inDialog) {
+        statsDialog.close();
+      }
+    });
+
+    // --- Admin Dashboard Script Logic ---
+
+    // Seeds fake analytics profiles if not already seeded
+    function seedSimulationAnalytics() {
+      const seeded = localStorage.getItem('sim_admin_seeded');
+      if (seeded) return;
+
+      const fakeUsers = [
+        { name: 'Alex Rivera', email: 'alex@example.com', pops: 12450, streak: 12, skin: 'holographic', activeDaysAgo: 0, signupDaysAgo: 28 },
+        { name: 'Emma Watson', email: 'emma@example.com', pops: 8900, streak: 6, skin: 'glow', activeDaysAgo: 1, signupDaysAgo: 25 },
+        { name: 'Ryan Reynolds', email: 'ryan@example.com', pops: 6520, streak: 3, skin: 'giant', activeDaysAgo: 0, signupDaysAgo: 19 },
+        { name: 'Sophia Loren', email: 'sophia@example.com', pops: 4200, streak: 0, skin: 'classic', activeDaysAgo: 4, signupDaysAgo: 18 },
+        { name: 'Liam Neeson', email: 'liam@example.com', pops: 11020, streak: 8, skin: 'cosmic', activeDaysAgo: 0, signupDaysAgo: 26 },
+        { name: 'Olivia Wilde', email: 'olivia@example.com', pops: 3500, streak: 1, skin: 'tiny', activeDaysAgo: 2, signupDaysAgo: 15 },
+        { name: 'Noah Centineo', email: 'noah@example.com', pops: 1200, streak: 0, skin: 'classic', activeDaysAgo: 8, signupDaysAgo: 12 },
+        { name: 'Ava DuVernay', email: 'ava@example.com', pops: 9500, streak: 9, skin: 'holographic', activeDaysAgo: 1, signupDaysAgo: 22 },
+        { name: 'Ethan Hawke', email: 'ethan@example.com', pops: 15000, streak: 18, skin: 'cosmic', activeDaysAgo: 0, signupDaysAgo: 30 },
+        { name: 'Isabella Rossellini', email: 'isabella@example.com', pops: 780, streak: 0, skin: 'classic', activeDaysAgo: 3, signupDaysAgo: 9 },
+        { name: 'Mason Mount', email: 'mason@example.com', pops: 520, streak: 0, skin: 'classic', activeDaysAgo: 6, signupDaysAgo: 8 },
+        { name: 'Mia Hamm', email: 'mia@example.com', pops: 6800, streak: 4, skin: 'glow', activeDaysAgo: 0, signupDaysAgo: 16 },
+        { name: 'Lucas Hedges', email: 'lucas@example.com', pops: 450, streak: 0, skin: 'classic', activeDaysAgo: 11, signupDaysAgo: 5 },
+        { name: 'Charlotte Gainsbourg', email: 'charlotte@example.com', pops: 3100, streak: 2, skin: 'giant', activeDaysAgo: 1, signupDaysAgo: 11 },
+        { name: 'Oliver Stone', email: 'oliver@example.com', pops: 150, streak: 0, skin: 'classic', activeDaysAgo: 14, signupDaysAgo: 4 },
+        { name: 'Amelia Earhart', email: 'amelia@example.com', pops: 8200, streak: 7, skin: 'holographic', activeDaysAgo: 0, signupDaysAgo: 20 },
+        { name: 'Elijah Wood', email: 'elijah@example.com', pops: 250, streak: 0, skin: 'classic', activeDaysAgo: 9, signupDaysAgo: 3 },
+        { name: 'Harper Lee', email: 'harper@example.com', pops: 4600, streak: 5, skin: 'tiny', activeDaysAgo: 0, signupDaysAgo: 14 },
+        { name: 'James Corden', email: 'james@example.com', pops: 120, streak: 0, skin: 'classic', activeDaysAgo: 2, signupDaysAgo: 2 },
+        { name: 'Evelyn Glennie', email: 'evelyn@example.com', pops: 10400, streak: 11, skin: 'cosmic', activeDaysAgo: 0, signupDaysAgo: 24 },
+        { name: 'Benjamin Franklin', email: 'benjamin@example.com', pops: 95, streak: 0, skin: 'classic', activeDaysAgo: 1, signupDaysAgo: 1 },
+        { name: 'Abigail Williams', email: 'abigail@example.com', pops: 45, streak: 0, skin: 'classic', activeDaysAgo: 0, signupDaysAgo: 0 }
+      ];
+
+      const accounts = JSON.parse(localStorage.getItem('sim_accounts') || '{}');
+      const d = new Date();
+
+      fakeUsers.forEach(u => {
+        const uid = 'uid-sim-' + u.name.replace(/\s+/g, '').toLowerCase();
+        const emailKey = u.email.toLowerCase();
+        
+        const signupDate = new Date();
+        signupDate.setDate(d.getDate() - u.signupDaysAgo);
+        const signupDateStr = signupDate.toISOString().split('T')[0];
+
+        const lastActiveDate = new Date();
+        lastActiveDate.setDate(d.getDate() - u.activeDaysAgo);
+        const lastActiveDateStr = lastActiveDate.toISOString().split('T')[0];
+
+        accounts[emailKey] = {
+          uid,
+          email: u.email,
+          displayName: u.name,
+          password: 'password123',
+          signupDate: signupDateStr
+        };
+
+        const stats = {
+          totalPopped: u.pops,
+          poppedToday: u.activeDaysAgo === 0 ? Math.floor(u.pops * 0.1) : 0,
+          longestStreak: u.streak,
+          currentStreak: u.streak,
+          sheetsRefilled: Math.floor(u.pops / 80),
+          lastActiveDate: lastActiveDateStr,
+          unlockedSkins: ['classic', 'holographic', 'glow', 'giant', 'tiny', 'cosmic'].filter((s, i) => u.pops >= [0, 100, 500, 1000, 5000, 10000][i]),
+          selectedSkin: u.skin,
+          dailyStreak: u.streak,
+          lastDailyCompletedDate: u.activeDaysAgo === 0 ? lastActiveDateStr : "",
+          streakFreezes: Math.random() > 0.5 ? 1 : 0,
+          lastFreezeResetDate: signupDateStr,
+          dailySheetsCompleted: Math.floor(u.pops / 120),
+          displayName: u.name,
+          email: u.email,
+          signupDate: signupDateStr
+        };
+
+        localStorage.setItem(`sim_stats_${uid}`, JSON.stringify(stats));
+        localDbSimulation.updateLeaderboard(uid, u.name, u.pops);
+      });
+
+      accounts['admin@bubblewrap.com'] = {
+        uid: 'uid-sim-admin',
+        email: 'admin@bubblewrap.com',
+        displayName: 'Admin Root',
+        password: 'admin123',
+        signupDate: '2026-07-01'
+      };
+
+      localStorage.setItem('sim_accounts', JSON.stringify(accounts));
+      localStorage.setItem('sim_admin_seeded', 'true');
+    }
+
+    function addPopSyncLog(uid, count) {
+      const time = new Date().toLocaleTimeString();
+      popSyncLogs.unshift({ time, uid, count, status: 'success' });
+      if (popSyncLogs.length > 10) popSyncLogs.pop();
+      renderAdminLogs();
+    }
+
+    function addSyncErrorLog(uid, msg) {
+      const time = new Date().toLocaleTimeString();
+      popSyncLogs.unshift({ time, uid, count: 0, status: 'error', errorMsg: msg });
+      if (popSyncLogs.length > 10) popSyncLogs.pop();
+      adminErrorCount++;
+      renderAdminLogs();
+    }
+
+    function addSignupLog(name, email) {
+      const time = new Date().toLocaleTimeString();
+      signupLogs.unshift({ time, name, email });
+      if (signupLogs.length > 10) signupLogs.pop();
+      renderAdminLogs();
+    }
+
+    function checkRoute() {
+      const path = window.location.pathname;
+      if (path === '/admin') {
+        enterAdminMode();
+      } else {
+        exitAdminMode();
+      }
+    }
+
+    function enterAdminMode() {
+      document.querySelector('header').classList.add('hidden');
+      document.getElementById('grid-container').classList.add('hidden');
+      document.querySelector('.bottom-bar').classList.add('hidden');
+      document.getElementById('stats-panel').classList.remove('open');
+      
+      const blocker = document.getElementById('admin-play-blocker');
+      if (blocker) blocker.classList.add('hidden');
+      
+      document.getElementById('admin-loading-overlay').classList.add('hidden');
+      document.getElementById('admin-gate-card').classList.add('hidden');
+      document.getElementById('admin-panel-container').classList.add('hidden');
+      
+      checkAdminAuth();
+    }
+
+    function exitAdminMode() {
+      document.querySelector('header').classList.remove('hidden');
+      document.getElementById('grid-container').classList.remove('hidden');
+      document.querySelector('.bottom-bar').classList.remove('hidden');
+      
+      const blocker = document.getElementById('admin-play-blocker');
+      if (blocker) {
+        if (isLoggedIn && isAdminUser) {
+          blocker.classList.remove('hidden');
+        } else {
+          blocker.classList.add('hidden');
+        }
+      }
+      
+      document.getElementById('admin-loading-overlay').classList.add('hidden');
+      document.getElementById('admin-gate-card').classList.add('hidden');
+      document.getElementById('admin-panel-container').classList.add('hidden');
+      
+      if (window.location.pathname === '/admin') {
+        window.history.pushState({}, '', '/');
+      }
+    }
+
+    function checkAdminAuth() {
+      if (isAuthResolving) {
+        document.getElementById('admin-loading-overlay').classList.remove('hidden');
+        return;
+      }
+      
+      document.getElementById('admin-loading-overlay').classList.add('hidden');
+
+      if (!isLoggedIn) {
+        document.getElementById('admin-gate-card').classList.remove('hidden');
+        return;
+      }
+
+      const userEmail = fbApp ? fbAuth.currentUser?.email : localDbSimulation.currentUser?.email;
+      
+      if (userEmail && adminWhitelist.includes(userEmail.toLowerCase())) {
+        document.getElementById('admin-panel-container').classList.remove('hidden');
+        if (!isRealDb) {
+          seedSimulationAnalytics();
+        }
+        loadAdminData();
+      } else {
+        showCustomToast("Access Denied: Admin privileges required.");
+        window.history.pushState({}, '', '/');
+        exitAdminMode();
+      }
+    }
+
+    async function loadAdminData() {
+      allUsersData = [];
+      
+      if (fbApp) {
+        try {
+          const querySnapshot = await getDocs(collection(fbStore, "users_stats"));
+          querySnapshot.forEach(doc => {
+            const data = doc.data();
+            const signupDate = data.signupDate || data.updatedAt?.split('T')[0] || data.lastActiveDate || '2026-07-20';
+            allUsersData.push({
+              uid: doc.id,
+              displayName: data.displayName || 'Anonymous',
+              email: data.email || 'N/A',
+              totalPopped: data.totalPopped || 0,
+              poppedToday: data.poppedToday || 0,
+              dailyStreak: data.dailyStreak || 0,
+              lastActiveDate: data.lastActiveDate || 'N/A',
+              selectedSkin: data.selectedSkin || 'classic',
+              signupDate: signupDate,
+              sheetsRefilled: data.sheetsRefilled || 0
+            });
+          });
+        } catch(e) {
+          console.error("Firestore read error:", e);
+          addSyncErrorLog('Firestore', e.message);
+          await loadAdminSimulatedData();
+        }
+      } else {
+        await loadAdminSimulatedData();
+      }
+
+      computeAdminMetrics();
+      renderAdminCharts();
+      renderUsersTable();
+      renderAdminLogs();
+    }
+
+    async function loadAdminSimulatedData() {
+      try {
+        const res = await fetch('/api/admin/users');
+        if (!res.ok) {
+          throw new Error("Failed to fetch admin users data");
+        }
+        const data = await res.json();
+        allUsersData = data.map(user => ({
+          uid: user.uid,
+          displayName: user.displayName || 'Anonymous User',
+          email: user.email,
+          totalPopped: user.totalPopped || 0,
+          poppedToday: user.poppedToday || 0,
+          dailyStreak: user.dailyStreak || 0,
+          lastActiveDate: user.lastActiveDate || 'N/A',
+          selectedSkin: user.selectedSkin || 'classic',
+          signupDate: user.signupDate ? user.signupDate.split('T')[0] : '2026-07-22',
+          sheetsRefilled: user.sheetsRefilled || 0
+        }));
+      } catch (err) {
+        console.error("Admin data fetch error:", err);
+        addSyncErrorLog('AdminFetch', err.message);
+      }
+    }
+
+    function computeAdminMetrics() {
+      const totalUsers = allUsersData.length;
+      let popsTotal = 0;
+      let popsTodaySum = 0;
+      let activeToday = 0;
+      let activeWeek = 0;
+      let signupsToday = 0;
+      let signupsWeek = 0;
+      let totalRefills = 0;
+      let activeStreaksCount = 0;
+
+      const todayStr = getTodayStr();
+      
+      const d = new Date();
+      d.setDate(d.getDate() - 7);
+      const lastWeekLimitStr = d.toISOString().split('T')[0];
+
+      allUsersData.forEach(user => {
+        popsTotal += user.totalPopped;
+        popsTodaySum += user.poppedToday;
+        totalRefills += user.sheetsRefilled;
+        
+        if (user.dailyStreak > 0) {
+          activeStreaksCount++;
+        }
+        
+        if (user.lastActiveDate === todayStr) {
+          activeToday++;
+        }
+        if (user.lastActiveDate >= lastWeekLimitStr) {
+          activeWeek++;
+        }
+        if (user.signupDate === todayStr) {
+          signupsToday++;
+        }
+        if (user.signupDate >= lastWeekLimitStr) {
+          signupsWeek++;
+        }
+      });
+
+      const avgPops = totalUsers > 0 ? Math.round(popsTotal / totalUsers) : 0;
+
+      document.getElementById('metric-total-users').innerText = totalUsers.toLocaleString();
+      document.getElementById('metric-alltime-pops').innerText = popsTotal.toLocaleString();
+      document.getElementById('metric-pops-today').innerText = popsTodaySum.toLocaleString();
+      document.getElementById('metric-active-users').innerText = `${activeToday} / ${activeWeek}`;
+      document.getElementById('metric-signups-week').innerText = `${signupsToday} / ${signupsWeek}`;
+      document.getElementById('metric-avg-pops').innerText = avgPops.toLocaleString();
+      document.getElementById('metric-total-refills').innerText = totalRefills.toLocaleString();
+      document.getElementById('metric-active-streaks').innerText = activeStreaksCount.toLocaleString();
+    }
+
+    function renderAdminCharts() {
+      if (typeof Chart === 'undefined') return;
+
+      const last30Days = [];
+      const dauData = [];
+      const popsData = [];
+      const signupsData = [];
+
+      const d = new Date();
+      for (let i = 29; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(d.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        last30Days.push(date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+        
+        let activeUsersCount = 0;
+        let dailyPopsCount = 0;
+        let signupCount = 0;
+
+        allUsersData.forEach(user => {
+          if (user.signupDate === dateStr) {
+            signupCount++;
+          }
+          if (user.lastActiveDate === dateStr) {
+            activeUsersCount++;
+          }
+          const daysActive = getDaysBetween(user.signupDate, user.lastActiveDate) + 1;
+          const inRange = dateStr >= user.signupDate && dateStr <= user.lastActiveDate;
+          if (inRange && daysActive > 0) {
+            dailyPopsCount += Math.round(user.totalPopped / daysActive);
+          }
+        });
+        
+        dauData.push(activeUsersCount);
+        popsData.push(dailyPopsCount);
+        signupsData.push(signupCount);
+      }
+
+      const skinCounts = { classic: 0, holographic: 0, glow: 0, giant: 0, tiny: 0, cosmic: 0 };
+      allUsersData.forEach(user => {
+        const skin = user.selectedSkin || 'classic';
+        if (skinCounts[skin] !== undefined) {
+          skinCounts[skin]++;
+        }
+      });
+
+      const streakCounts = { zero: 0, low: 0, mid: 0, high: 0 };
+      allUsersData.forEach(user => {
+        const s = user.dailyStreak || 0;
+        if (s === 0) streakCounts.zero++;
+        else if (s <= 3) streakCounts.low++;
+        else if (s <= 7) streakCounts.mid++;
+        else streakCounts.high++;
+      });
+
+      if (adminCharts.dauPops) adminCharts.dauPops.destroy();
+      if (adminCharts.signups) adminCharts.signups.destroy();
+      if (adminCharts.skins) adminCharts.skins.destroy();
+      if (adminCharts.streaks) adminCharts.streaks.destroy();
+
+      const ctxDauPops = document.getElementById('chart-dau-pops').getContext('2d');
+      adminCharts.dauPops = new Chart(ctxDauPops, {
+        type: 'line',
+        data: {
+          labels: last30Days,
+          datasets: [
+            {
+              label: 'Active Users (DAU)',
+              data: dauData,
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.1)',
+              yAxisID: 'y',
+              tension: 0.3,
+              fill: true
+            },
+            {
+              label: 'Total Pops / Day',
+              data: popsData,
+              borderColor: '#ec4899',
+              backgroundColor: 'rgba(236, 72, 153, 0.05)',
+              yAxisID: 'y1',
+              tension: 0.3,
+              borderDash: [5, 5]
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#94a3b8' } }
+          },
+          scales: {
+            x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', maxTicksLimit: 10 } },
+            y: { 
+              grid: { color: '#1e293b' }, 
+              ticks: { color: '#3b82f6' },
+              title: { display: true, text: 'Active Users', color: '#3b82f6' }
+            },
+            y1: {
+              position: 'right',
+              grid: { drawOnChartArea: false },
+              ticks: { color: '#ec4899' },
+              title: { display: true, text: 'Pops Count', color: '#ec4899' }
+            }
+          }
+        }
+      });
+
+      const ctxSignups = document.getElementById('chart-signups').getContext('2d');
+      adminCharts.signups = new Chart(ctxSignups, {
+        type: 'bar',
+        data: {
+          labels: last30Days,
+          datasets: [{
+            label: 'New Signups',
+            data: signupsData,
+            backgroundColor: '#10b981'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', maxTicksLimit: 10 } },
+            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', precision: 0 } }
+          }
+        }
+      });
+
+      const ctxSkins = document.getElementById('chart-skins').getContext('2d');
+      adminCharts.skins = new Chart(ctxSkins, {
+        type: 'doughnut',
+        data: {
+          labels: ['Classic', 'Holographic', 'Neon Glow', 'Giant', 'Tiny', 'Cosmic'],
+          datasets: [{
+            data: [skinCounts.classic, skinCounts.holographic, skinCounts.glow, skinCounts.giant, skinCounts.tiny, skinCounts.cosmic],
+            backgroundColor: ['#64748b', '#06b6d4', '#ec4899', '#ea580c', '#3b82f6', '#8b5cf6'],
+            borderWidth: 1,
+            borderColor: '#0f172a'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', labels: { color: '#94a3b8', font: { size: 9 } } }
+          }
+        }
+      });
+
+      const ctxStreaks = document.getElementById('chart-streaks').getContext('2d');
+      adminCharts.streaks = new Chart(ctxStreaks, {
+        type: 'bar',
+        data: {
+          labels: ['0 Days', '1-3 Days', '4-7 Days', '8+ Days'],
+          datasets: [{
+            data: [streakCounts.zero, streakCounts.low, streakCounts.mid, streakCounts.high],
+            backgroundColor: ['#64748b', '#fbbf24', '#f59e0b', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8' } },
+            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', precision: 0 } }
+          }
+        }
+      });
+    }
+
+    let tableSortColumn = 'totalPopped';
+    let tableSortAsc = false;
+    let tableSearchQuery = '';
+    let tableCurrentPage = 1;
+    const tableRowsPerPage = 10;
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('admin-table-body');
+      if (!tbody) return;
+
+      let filtered = allUsersData.filter(user => {
+        const q = tableSearchQuery.toLowerCase();
+        return user.displayName.toLowerCase().includes(q) || user.email.toLowerCase().includes(q);
+      });
+
+      filtered.sort((a, b) => {
+        let valA = a[tableSortColumn];
+        let valB = b[tableSortColumn];
+        
+        if (typeof valA === 'string') {
+          valA = valA.toLowerCase();
+          valB = valB.toLowerCase();
+        }
+
+        if (valA < valB) return tableSortAsc ? -1 : 1;
+        if (valA > valB) return tableSortAsc ? 1 : -1;
+        return 0;
+      });
+
+      const totalRows = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalRows / tableRowsPerPage));
+      
+      if (tableCurrentPage > totalPages) tableCurrentPage = totalPages;
+      if (tableCurrentPage < 1) tableCurrentPage = 1;
+
+      const startIdx = (tableCurrentPage - 1) * tableRowsPerPage;
+      const pageRows = filtered.slice(startIdx, startIdx + tableRowsPerPage);
+
+      tbody.innerHTML = '';
+      if (pageRows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#64748b;">No users match search query.</td></tr>';
+      } else {
+        pageRows.forEach(user => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${escapeHTML(user.displayName)}</strong></td>
+            <td>${escapeHTML(user.email)}</td>
+            <td>${user.signupDate}</td>
+            <td style="color:#ec4899; font-weight:700;">${user.totalPopped.toLocaleString()}</td>
+            <td>🔥 ${user.dailyStreak}</td>
+            <td>${user.lastActiveDate}</td>
+            <td><span style="font-size:0.75rem; background:#1e293b; padding:2px 8px; border-radius:4px; text-transform:uppercase;">${user.selectedSkin}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('table-page-info').innerText = `Showing ${totalRows === 0 ? 0 : startIdx + 1}-${Math.min(startIdx + tableRowsPerPage, totalRows)} of ${totalRows} users`;
+      document.getElementById('btn-table-prev').disabled = tableCurrentPage === 1;
+      document.getElementById('btn-table-next').disabled = tableCurrentPage === totalPages;
+    }
+
+    function renderAdminLogs() {
+      const syncList = document.getElementById('log-list-sync');
+      const signupList = document.getElementById('log-list-signups');
+      const badge = document.getElementById('admin-error-badge');
+      const overviewSignups = document.getElementById('overview-recent-signups');
+      const overviewSyncs = document.getElementById('overview-recent-syncs');
+      
+      if (badge) {
+        badge.innerText = adminErrorCount;
+        if (adminErrorCount > 0) {
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+
+      const syncLiGenerator = (log) => {
+        const li = document.createElement('li');
+        li.className = log.status === 'error' ? 'error-event' : 'sync-event';
+        if (log.status === 'error') {
+          li.innerHTML = `
+            <div class="log-timestamp">${log.time}</div>
+            ❌ UID <strong>${log.uid.substr(0,8)}...</strong> failed sync: ${escapeHTML(log.errorMsg)}
+          `;
+        } else {
+          li.innerHTML = `
+            <div class="log-timestamp">${log.time}</div>
+            ⚡ UID <strong>${log.uid.substr(0,8)}...</strong> synced total: <strong>${log.count} pops</strong>
+          `;
+        }
+        return li;
+      };
+
+      if (syncList) {
+        syncList.innerHTML = '';
+        if (popSyncLogs.length === 0) {
+          syncList.innerHTML = '<li>No sync events registered yet.</li>';
+        } else {
+          popSyncLogs.forEach(log => syncList.appendChild(syncLiGenerator(log)));
+        }
+      }
+
+      if (overviewSyncs) {
+        overviewSyncs.innerHTML = '';
+        if (popSyncLogs.length === 0) {
+          overviewSyncs.innerHTML = '<li>No sync events registered yet.</li>';
+        } else {
+          popSyncLogs.slice(0, 5).forEach(log => overviewSyncs.appendChild(syncLiGenerator(log)));
+        }
+      }
+
+      if (signupLogs.length === 0 && allUsersData.length > 0) {
+        const sortedUsers = [...allUsersData].sort((a,b) => b.signupDate.localeCompare(a.signupDate)).slice(0, 8);
+        sortedUsers.forEach(u => {
+          signupLogs.push({ time: 'Seeded: ' + u.signupDate, name: u.displayName, email: u.email });
+        });
+      }
+
+      const signupLiGenerator = (log) => {
+        const li = document.createElement('li');
+        li.className = 'signup-event';
+        li.innerHTML = `
+          <div class="log-timestamp">${log.time}</div>
+          👤 User <strong>${escapeHTML(log.name)}</strong> (${escapeHTML(log.email)}) registered.
+        `;
+        return li;
+      };
+
+      if (signupList) {
+        signupList.innerHTML = '';
+        if (signupLogs.length === 0) {
+          signupList.innerHTML = '<li>No registration logs.</li>';
+        } else {
+          signupLogs.forEach(log => signupList.appendChild(signupLiGenerator(log)));
+        }
+      }
+
+      if (overviewSignups) {
+        overviewSignups.innerHTML = '';
+        if (signupLogs.length === 0) {
+          overviewSignups.innerHTML = '<li>No registration logs.</li>';
+        } else {
+          signupLogs.slice(0, 5).forEach(log => overviewSignups.appendChild(signupLiGenerator(log)));
+        }
+      }
+    }
+
+    // Admin login form submission
+    const adminLoginForm = document.getElementById('admin-login-form');
+    const adminLoginError = document.getElementById('admin-login-error');
+    
+    adminLoginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      adminLoginError.style.display = 'none';
+
+      const email = document.getElementById('admin-login-email').value.trim();
+      const password = document.getElementById('admin-login-password').value;
+
+      if (!adminWhitelist.includes(email.toLowerCase())) {
+        adminLoginError.innerText = "Access Denied: Email is not whitelisted.";
+        adminLoginError.style.display = 'block';
+        return;
+      }
+
+      try {
+        if (fbApp) {
+          await signInWithEmailAndPassword(fbAuth, email, password);
+        } else {
+          await localDbSimulation.signInWithEmailAndPassword(email, password);
+        }
+      } catch (err) {
+        let msg = "Invalid email or password.";
+        if (err.message.includes("auth/invalid-email")) {
+          msg = "Please enter a valid email address.";
+        } else if (err.message.includes("auth/invalid-credential")) {
+          msg = "Incorrect credentials. Please try again.";
+        }
+        adminLoginError.innerText = msg;
+        adminLoginError.style.display = 'block';
+      }
+    });
+
+    document.getElementById('admin-gate-cancel').addEventListener('click', () => {
+      window.history.pushState({}, '', '/');
+      exitAdminMode();
+    });
+
+    document.getElementById('admin-back-btn').addEventListener('click', () => {
+      window.history.pushState({}, '', '/');
+      exitAdminMode();
+    });
+
+    // Sidebar tab toggling
+    const sidebarItems = document.querySelectorAll('.sidebar-menu li');
+    const tabViews = document.querySelectorAll('.admin-tab-view');
+
+    sidebarItems.forEach(item => {
+      item.addEventListener('click', () => {
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        const activeTab = item.dataset.tab;
+        tabViews.forEach(view => {
+          if (view.id === `admin-tab-${activeTab}`) {
+            view.classList.remove('hidden');
+          } else {
+            view.classList.add('hidden');
+          }
+        });
+        
+        if (activeTab === 'charts') {
+          renderAdminCharts();
+        }
+      });
+    });
+
+    // Search input
+    document.getElementById('admin-user-search').addEventListener('input', (e) => {
+      tableSearchQuery = e.target.value;
+      tableCurrentPage = 1;
+      renderUsersTable();
+    });
+
+    // Pager controls
+    document.getElementById('btn-table-prev').addEventListener('click', () => {
+      if (tableCurrentPage > 1) {
+        tableCurrentPage--;
+        renderUsersTable();
+      }
+    });
+
+    document.getElementById('btn-table-next').addEventListener('click', () => {
+      tableCurrentPage++;
+      renderUsersTable();
+    });
+
+    // Sort header clicks
+    document.querySelectorAll('.admin-table th').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col;
+        if (tableSortColumn === col) {
+          tableSortAsc = !tableSortAsc;
+        } else {
+          tableSortColumn = col;
+          tableSortAsc = false;
+        }
+        renderUsersTable();
+      });
+    });
+
+    // Tab buttons event listeners
+    tabBtnLogin.addEventListener('click', () => switchAuthTab('login'));
+    tabBtnSignup.addEventListener('click', () => switchAuthTab('signup'));
+
+    // Resize events
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeGrid, 80);
+    });
+
+    // Initial setup loads
+    window.addEventListener('load', () => {
+      resizeGrid();
+      setInterval(updatePpmTimer, 500);
+
+      // Blocker button listeners
+      document.getElementById('blocker-admin-btn').addEventListener('click', () => {
+        window.history.pushState({}, '', '/admin');
+        checkRoute();
+      });
+      document.getElementById('blocker-logout-btn').addEventListener('click', performLogout);
+
+      // Corporate Feature Button listeners
+      document.getElementById('stealth-mode-toggle-btn').addEventListener('click', () => {
+        audioSystem.init();
+        toggleStealthMode();
+      });
+      document.getElementById('exit-stealth-btn').addEventListener('click', toggleStealthMode);
+      
+      document.getElementById('mindful-break-toggle-btn').addEventListener('click', () => {
+        audioSystem.init();
+        isMindfulBreakActive = true;
+        document.getElementById('mindful-break-overlay').classList.remove('hidden');
+        document.getElementById('breathing-start-btn').innerText = "Start Breathing Session";
+        document.getElementById('breathing-instruction').innerText = "Click below to begin breathing cycle.";
+        document.getElementById('mindful-time-val').innerText = "5:00";
+        document.getElementById('mindful-progress-fill').style.width = "0%";
+      });
+      
+      document.getElementById('close-mindful-btn').addEventListener('click', () => {
+        endBreathingBreak();
+      });
+      
+      document.getElementById('breathing-start-btn').addEventListener('click', startBreathingBreak);
+      
+      // Boss Key (Escape) listener
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (landingScreen && landingScreen.classList.contains('hidden')) {
+            toggleStealthMode();
+          }
+        }
+      });
+
+      // SPA routing hook overrides
+      const originalPushState = window.history.pushState;
+      window.history.pushState = function(...args) {
+        originalPushState.apply(this, args);
+        checkRoute();
+      };
+      window.addEventListener('popstate', checkRoute);
+      checkRoute();
+
+      // Flush database sync before user leaves
+      window.addEventListener('beforeunload', () => {
+        if (statsSyncTimeout) {
+          clearTimeout(statsSyncTimeout);
+          triggerDatabaseSync();
+        }
+      });
+
+      // Bind Auth listener
+      if (fbApp) {
+        onAuthStateChanged(fbAuth, (user) => {
+          handleSessionChange(user);
+        });
+      } else {
+        seedSimulationAnalytics();
+        localDbSimulation.onAuthStateChanged((user) => {
+          handleSessionChange(user);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

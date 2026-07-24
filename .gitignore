@@ -1,0 +1,6 @@
+node_modules
+bubblewrap.db
+.system_generated
+.agents
+.DS_Store
+cookies.txt

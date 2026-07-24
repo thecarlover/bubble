@@ -4328,6 +4328,8 @@
           msg = "Please enter a valid email address.";
         } else if (err.message.includes("auth/invalid-credential")) {
           msg = "Incorrect credentials. Please try again.";
+        } else {
+          msg = err.message;
         }
         landingLoginError.innerText = msg;
         landingLoginError.style.display = 'block';
@@ -4383,6 +4385,8 @@
           msg = "Email address is already in use by another account.";
         } else if (err.message.includes("auth/invalid-email")) {
           msg = "The email address is badly formatted.";
+        } else {
+          msg = err.message;
         }
         landingSignupError.innerText = msg;
         landingSignupError.style.display = 'block';

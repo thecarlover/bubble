@@ -23,7 +23,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: isProduction, // Set to true if using HTTPS on production
+    secure: 'auto', // Set secure dynamically based on incoming connection scheme
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     sameSite: 'lax'
@@ -225,6 +225,46 @@ app.get('/api/auth/session', (req, res) => {
   } else {
     res.json({ user: null });
   }
+});
+
+// Environment & Database diagnostics route
+app.get('/api/diag', (req, res) => {
+  const diag = {
+    nodeEnv: process.env.NODE_ENV,
+    isRender: !!process.env.RENDER,
+    dbPath: dbPath,
+    dbConnected: false,
+    writeTest: false,
+    errorMessage: null
+  };
+
+  db.get("SELECT 1", [], (err) => {
+    if (err) {
+      diag.errorMessage = "Database ping failed: " + err.message;
+      return res.json(diag);
+    }
+    diag.dbConnected = true;
+
+    // Run write test to a temporary table
+    db.serialize(() => {
+      db.run("CREATE TABLE IF NOT EXISTS diag_test (id INTEGER PRIMARY KEY, val TEXT)", (err) => {
+        if (err) {
+          diag.errorMessage = "Diag table creation failed: " + err.message;
+          return res.json(diag);
+        }
+        
+        db.run("INSERT OR REPLACE INTO diag_test (id, val) VALUES (1, 'ok')", (err) => {
+          if (err) {
+            diag.errorMessage = "Diag write insertion failed: " + err.message;
+            return res.json(diag);
+          }
+          
+          diag.writeTest = true;
+          res.json(diag);
+        });
+      });
+    });
+  });
 });
 
 // --- API Stats Endpoints ---

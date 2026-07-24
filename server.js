@@ -121,6 +121,9 @@ function initializeTables() {
           );
         }
       });
+
+      // Seed fake users for simulation analytics
+      seedFakeUsers();
     });
   });
 }
@@ -419,3 +422,103 @@ app.listen(PORT, () => {
   console.log(`👉 Address: http://localhost:${PORT}`);
   console.log(`=============================================`);
 });
+
+function seedFakeUsers() {
+  const fakeUsers = [
+    { name: 'Alex Rivera', email: 'alex@example.com', pops: 12450, streak: 12, skin: 'holographic', activeDaysAgo: 0, signupDaysAgo: 28 },
+    { name: 'Emma Watson', email: 'emma@example.com', pops: 8900, streak: 6, skin: 'glow', activeDaysAgo: 1, signupDaysAgo: 25 },
+    { name: 'Ryan Reynolds', email: 'ryan@example.com', pops: 6520, streak: 3, skin: 'giant', activeDaysAgo: 0, signupDaysAgo: 19 },
+    { name: 'Sophia Loren', email: 'sophia@example.com', pops: 4200, streak: 0, skin: 'classic', activeDaysAgo: 4, signupDaysAgo: 18 },
+    { name: 'Liam Neeson', email: 'liam@example.com', pops: 11020, streak: 8, skin: 'cosmic', activeDaysAgo: 0, signupDaysAgo: 26 },
+    { name: 'Olivia Wilde', email: 'olivia@example.com', pops: 3500, streak: 1, skin: 'tiny', activeDaysAgo: 2, signupDaysAgo: 15 },
+    { name: 'Noah Centineo', email: 'noah@example.com', pops: 1200, streak: 0, skin: 'classic', activeDaysAgo: 8, signupDaysAgo: 12 },
+    { name: 'Ava DuVernay', email: 'ava@example.com', pops: 9500, streak: 9, skin: 'holographic', activeDaysAgo: 1, signupDaysAgo: 22 },
+    { name: 'Ethan Hawke', email: 'ethan@example.com', pops: 15000, streak: 18, skin: 'cosmic', activeDaysAgo: 0, signupDaysAgo: 30 },
+    { name: 'Isabella Rossellini', email: 'isabella@example.com', pops: 780, streak: 0, skin: 'classic', activeDaysAgo: 3, signupDaysAgo: 9 },
+    { name: 'Mason Mount', email: 'mason@example.com', pops: 520, streak: 0, skin: 'classic', activeDaysAgo: 6, signupDaysAgo: 8 },
+    { name: 'Mia Hamm', email: 'mia@example.com', pops: 6800, streak: 4, skin: 'glow', activeDaysAgo: 0, signupDaysAgo: 16 },
+    { name: 'Lucas Hedges', email: 'lucas@example.com', pops: 450, streak: 0, skin: 'classic', activeDaysAgo: 11, signupDaysAgo: 5 },
+    { name: 'Charlotte Gainsbourg', email: 'charlotte@example.com', pops: 3100, streak: 2, skin: 'giant', activeDaysAgo: 1, signupDaysAgo: 11 },
+    { name: 'Oliver Stone', email: 'oliver@example.com', pops: 150, streak: 0, skin: 'classic', activeDaysAgo: 14, signupDaysAgo: 4 },
+    { name: 'Amelia Earhart', email: 'amelia@example.com', pops: 8200, streak: 7, skin: 'holographic', activeDaysAgo: 0, signupDaysAgo: 20 },
+    { name: 'Elijah Wood', email: 'elijah@example.com', pops: 250, streak: 0, skin: 'classic', activeDaysAgo: 9, signupDaysAgo: 3 },
+    { name: 'Harper Lee', email: 'harper@example.com', pops: 4600, streak: 5, skin: 'tiny', activeDaysAgo: 0, signupDaysAgo: 14 },
+    { name: 'James Corden', email: 'james@example.com', pops: 120, streak: 0, skin: 'classic', activeDaysAgo: 2, signupDaysAgo: 2 },
+    { name: 'Evelyn Glennie', email: 'evelyn@example.com', pops: 10400, streak: 11, skin: 'cosmic', activeDaysAgo: 0, signupDaysAgo: 24 },
+    { name: 'Benjamin Franklin', email: 'benjamin@example.com', pops: 95, streak: 0, skin: 'classic', activeDaysAgo: 1, signupDaysAgo: 1 },
+    { name: 'Abigail Williams', email: 'abigail@example.com', pops: 45, streak: 0, skin: 'classic', activeDaysAgo: 0, signupDaysAgo: 0 }
+  ];
+
+  // Hash password once to prevent CPU block per user
+  const password = 'password123';
+  const salt = bcrypt.genSaltSync(10);
+  const passwordHash = bcrypt.hashSync(password, salt);
+  
+  const d = new Date();
+
+  fakeUsers.forEach(u => {
+    const emailKey = u.email.toLowerCase().trim();
+    db.get("SELECT uid FROM users WHERE email = ?", [emailKey], (err, row) => {
+      if (err) {
+        console.error("❌ Error checking fake user existence:", err.message);
+        return;
+      }
+      if (!row) {
+        const uid = 'uid-sim-' + u.name.replace(/\s+/g, '').toLowerCase();
+        
+        const signupDate = new Date();
+        signupDate.setDate(d.getDate() - u.signupDaysAgo);
+        const signupDateStr = signupDate.toISOString();
+        const signupDateOnlyStr = signupDateStr.split('T')[0];
+
+        const lastActiveDate = new Date();
+        lastActiveDate.setDate(d.getDate() - u.activeDaysAgo);
+        const lastActiveDateOnlyStr = lastActiveDate.toISOString().split('T')[0];
+
+        db.run(
+          "INSERT INTO users (uid, email, password_hash, displayName, isAdmin, createdAt) VALUES (?, ?, ?, ?, ?, ?)",
+          [uid, emailKey, passwordHash, u.name, 0, signupDateStr],
+          (err) => {
+            if (err) {
+              console.error("❌ Error seeding fake user:", err.message);
+              return;
+            }
+            
+            const stats = {
+              totalPopped: u.pops,
+              poppedToday: u.activeDaysAgo === 0 ? Math.floor(u.pops * 0.1) : 0,
+              longestStreak: u.streak,
+              currentStreak: u.streak,
+              sheetsRefilled: Math.floor(u.pops / 80),
+              lastActiveDate: lastActiveDateOnlyStr,
+              unlockedSkins: JSON.stringify(['classic', 'holographic', 'glow', 'giant', 'tiny', 'cosmic'].filter((s, i) => u.pops >= [0, 100, 500, 1000, 5000, 10000][i])),
+              selectedSkin: u.skin,
+              dailyStreak: u.streak,
+              lastDailyCompletedDate: u.activeDaysAgo === 0 ? lastActiveDateOnlyStr : "",
+              streakFreezes: Math.random() > 0.5 ? 1 : 0,
+              lastFreezeResetDate: signupDateOnlyStr,
+              dailySheetsCompleted: Math.floor(u.pops / 120),
+              updatedAt: signupDateStr
+            };
+
+            db.run(
+              `INSERT INTO stats (
+                uid, totalPopped, poppedToday, longestStreak, currentStreak, sheetsRefilled, 
+                lastActiveDate, unlockedSkins, selectedSkin, dailyStreak, lastDailyCompletedDate, 
+                streakFreezes, lastFreezeResetDate, dailySheetsCompleted, updatedAt
+              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+              [
+                uid, stats.totalPopped, stats.poppedToday, stats.longestStreak, stats.currentStreak, stats.sheetsRefilled,
+                stats.lastActiveDate, stats.unlockedSkins, stats.selectedSkin, stats.dailyStreak, stats.lastDailyCompletedDate,
+                stats.streakFreezes, stats.lastFreezeResetDate, stats.dailySheetsCompleted, stats.updatedAt
+              ],
+              (err) => {
+                if (err) console.error("❌ Error seeding fake user stats:", err.message);
+              }
+            );
+          }
+        );
+      }
+    });
+  });
+}

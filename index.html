@@ -4324,12 +4324,12 @@
       } catch (err) {
         console.warn("Auth failure:", err.code || err.message);
         let msg = "Invalid email or password.";
-        if (err.message.includes("auth/invalid-email")) {
+        if (err.message && err.message.includes("auth/invalid-email")) {
           msg = "Please enter a valid email address.";
-        } else if (err.message.includes("auth/invalid-credential")) {
+        } else if (err.message && err.message.includes("auth/invalid-credential")) {
           msg = "Incorrect credentials. Please try again.";
         } else {
-          msg = err.message;
+          msg = err.message || err;
         }
         landingLoginError.innerText = msg;
         landingLoginError.style.display = 'block';
@@ -4381,12 +4381,12 @@
       } catch (err) {
         console.warn("Registration error:", err.code || err.message);
         let msg = "Account creation failed.";
-        if (err.message.includes("auth/email-already-in-use")) {
+        if (err.message && err.message.includes("auth/email-already-in-use")) {
           msg = "Email address is already in use by another account.";
-        } else if (err.message.includes("auth/invalid-email")) {
+        } else if (err.message && err.message.includes("auth/invalid-email")) {
           msg = "The email address is badly formatted.";
         } else {
-          msg = err.message;
+          msg = err.message || err;
         }
         landingSignupError.innerText = msg;
         landingSignupError.style.display = 'block';
